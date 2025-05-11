@@ -184,7 +184,7 @@ const LandingPage: React.FC = () => {
             >
               <Link
                 to="/dashboard"
-                className={`font-medium py-2 px-4 rounded-full backdrop-blur-sm transition-all duration-300 text-sm inline-block ${
+                className={`font-medium py-2 px-4 rounded-full backdrop-blur-xs transition-all duration-300 text-sm inline-block ${
                   isOverHero
                     ? "bg-white/10 hover:bg-white/20 text-white"
                     : "bg-gray-900/10 hover:bg-gray-900/20 text-gray-800"

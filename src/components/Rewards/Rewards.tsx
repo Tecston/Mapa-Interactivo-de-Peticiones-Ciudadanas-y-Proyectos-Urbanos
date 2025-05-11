@@ -9,7 +9,7 @@ const Rewards: React.FC = () => {
   const progress = currentUser.points % 100
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-2xl font-bold mb-4">Mi Perfil y Recompensas</h2>
 
       <div className="mb-4">

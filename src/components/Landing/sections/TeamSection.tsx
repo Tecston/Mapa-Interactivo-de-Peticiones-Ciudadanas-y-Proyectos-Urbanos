@@ -67,7 +67,7 @@ const TeamSection: React.FC = () => (
       {team.map((member) => (
         <div
           key={member.name}
-          className="bg-white rounded-xl shadow p-8 flex flex-col items-center border"
+          className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border"
         >
           <img
             src={member.img}

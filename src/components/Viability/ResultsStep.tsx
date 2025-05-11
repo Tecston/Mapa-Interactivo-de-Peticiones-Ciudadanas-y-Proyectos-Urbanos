@@ -82,7 +82,7 @@ export default function ResultsStep({ report, onExport }: ResultsStepProps) {
 
 function SummaryCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border bg-white p-4 shadow-sm">
+    <div className="rounded-xl border bg-white p-4 shadow-xs">
       <p className="text-xs text-muted-foreground">{title}</p>
       {children}
     </div>

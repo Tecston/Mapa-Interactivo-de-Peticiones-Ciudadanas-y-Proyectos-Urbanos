@@ -31,7 +31,7 @@ const milestones: Milestone[] = [
 ]
 
 const HistoryTimeline: React.FC = () => (
-  <section className="bg-white rounded-lg shadow p-6 mb-6">
+  <section className="bg-white rounded-lg shadow-sm p-6 mb-6">
     <h2 className="text-2xl font-bold mb-4">Nuestra Historia</h2>
     <div className="relative border-l-2 border-blue-200 pl-6">
       {milestones.map((m) => (

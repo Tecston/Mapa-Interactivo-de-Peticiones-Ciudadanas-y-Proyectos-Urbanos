@@ -42,7 +42,7 @@ const UrbanStatsSection: React.FC = () => (
       Sonora
     </p>
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10 w-full max-w-6xl">
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <div className="text-3xl font-extrabold mb-1 text-blue-600">
           <AnimatedNumber value={78} />
         </div>
@@ -50,7 +50,7 @@ const UrbanStatsSection: React.FC = () => (
           Proyectos Activos
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <div className="text-3xl font-extrabold mb-1 text-blue-600">
           $<AnimatedNumber value={3.2} />B
         </div>
@@ -58,7 +58,7 @@ const UrbanStatsSection: React.FC = () => (
           Inversión Total MXN
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <div className="text-3xl font-extrabold mb-1 text-blue-600">
           <AnimatedNumber value={14300} />
         </div>
@@ -66,7 +66,7 @@ const UrbanStatsSection: React.FC = () => (
           Empleos Generados
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <div className="text-3xl font-extrabold mb-1 text-blue-600">
           <AnimatedNumber value={42} />%
         </div>
@@ -76,7 +76,7 @@ const UrbanStatsSection: React.FC = () => (
       </div>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl">
-      <div className="bg-white rounded-xl shadow p-8 border">
+      <div className="bg-white rounded-xl shadow-sm p-8 border">
         <h3 className="text-xl font-bold mb-4">
           Inversión por Tipo de Proyecto
         </h3>
@@ -106,7 +106,7 @@ const UrbanStatsSection: React.FC = () => (
           </PieChart>
         </ResponsiveContainer>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 border">
+      <div className="bg-white rounded-xl shadow-sm p-8 border">
         <h3 className="text-xl font-bold mb-4">Proyectos por Zona</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
@@ -133,7 +133,7 @@ const UrbanStatsSection: React.FC = () => (
       </div>
     </div>
     <div className="w-full max-w-6xl mt-8">
-      <div className="bg-white rounded-xl shadow p-8 border">
+      <div className="bg-white rounded-xl shadow-sm p-8 border">
         <h3 className="text-xl font-bold mb-4">
           Tendencia de Inversión (2020–2025)
         </h3>

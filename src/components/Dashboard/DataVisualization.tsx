@@ -40,7 +40,7 @@ const DataVisualization = () => {
   }));
   // Colors for pie charts
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d'];
-  return <div className="bg-white rounded-lg shadow p-6">
+  return <div className="bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-2xl font-bold mb-6">
         Estadísticas y Visualización de Datos
       </h2>

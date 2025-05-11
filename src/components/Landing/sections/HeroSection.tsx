@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => (
     <h1 className="text-5xl w-3/4 md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
       Tu mapa de ruta para materializar tu proyecto y crecer en Hermosillo.
     </h1>
-    <p className="text-2xl md:text-2xl text-indigo-100 mb-10 max-w-2xl mx-auto drop-shadow">
+    <p className="text-2xl md:text-2xl text-indigo-100 mb-10 max-w-2xl mx-auto drop-shadow-sm">
       Descubre los proyectos arquitectónicos más destacados y conoce el
       desarrollo urbano de nuestra región.
     </p>

@@ -30,7 +30,7 @@ const SectorStatsSection: React.FC = () => (
       Datos relevantes sobre el desarrollo arquitectónico y urbano en Sonora
     </p>
     <div className="grid px-6 lg:px-0 grid-cols-1 md:grid-cols-4 gap-6 mb-10 w-full max-w-6xl">
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <span className="text-green-600 mb-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ const SectorStatsSection: React.FC = () => (
           Proyectos arquitectónicos en desarrollo
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <span className="text-green-600 mb-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ const SectorStatsSection: React.FC = () => (
           Millones de pesos invertidos en 2025
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <span className="text-green-600 mb-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@ const SectorStatsSection: React.FC = () => (
           Puestos de trabajo en el sector
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center border">
+      <div className="bg-white rounded-xl shadow-sm p-8 flex flex-col items-center border">
         <span className="text-green-600 mb-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -8,7 +8,7 @@ const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'requests' | 'projects'>('requests')
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-2xl font-bold mb-6">Panel de Administración</h2>
 
       {/* Pestañas */}

@@ -34,7 +34,7 @@ const alliances: Alliance[] = [
 ]
 
 const AlliancesHistory: React.FC = () => (
-  <section className="bg-white rounded-lg shadow p-6">
+  <section className="bg-white rounded-lg shadow-sm p-6">
     <h2 className="text-2xl font-bold mb-4">Historial de Alianzas</h2>
     <ul className="space-y-4">
       {alliances.map(({ id, date, partner, initiative, logoUrl }) => (

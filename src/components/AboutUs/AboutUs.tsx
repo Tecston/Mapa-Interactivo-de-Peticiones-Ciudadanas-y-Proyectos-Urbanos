@@ -22,7 +22,7 @@ const AboutUs: React.FC = () => (
     <HistoryTimeline />
 
     {/* Sección Sobre Nosotros */}
-    <section className="bg-white rounded-lg shadow p-6">
+    <section className="bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-2xl font-bold mb-4">Sobre Nosotros</h2>
       <p className="text-gray-700">
         Somos un equipo multidisciplinario que busca empoderar a la ciudadanía de Hermosillo
@@ -63,7 +63,7 @@ const AboutUs: React.FC = () => (
     </section>
 
     {/* Alianzas y Logros */}
-    <section className="bg-white rounded-lg shadow p-6">
+    <section className="bg-white rounded-lg shadow-sm p-6">
       <h3 className="text-lg font-semibold mb-2">Alianzas y Logros</h3>
       <p className="text-gray-700 mb-2">
         Colaboramos con el Ayuntamiento de Hermosillo y el COE Sonora Norte.

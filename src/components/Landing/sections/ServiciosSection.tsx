@@ -101,7 +101,7 @@ const ServiciosSection: React.FC = () => {
         {visibleModules.map((mod, i) => (
           <div
             key={mod.title}
-            className="bg-white rounded-xl shadow p-8 flex flex-col border transition-transform duration-200 hover:shadow-lg hover:scale-[1.025] group cursor-pointer"
+            className="bg-white rounded-xl shadow-sm p-8 flex flex-col border transition-transform duration-200 hover:shadow-lg hover:scale-[1.025] group cursor-pointer"
           >
             <div className="text-sm text-gray-400 mb-2 font-mono">
               {(i + 1).toString().padStart(2, "0")}
@@ -118,7 +118,7 @@ const ServiciosSection: React.FC = () => {
       </div>
       <div className="flex justify-center">
         <button
-          className="px-6 py-2 rounded bg-green-100 text-green-700 font-semibold border border-green-200 hover:bg-green-200 transition"
+          className="px-6 py-2 rounded-sm bg-green-100 text-green-700 font-semibold border border-green-200 hover:bg-green-200 transition"
           onClick={() => setShowAll((v) => !v)}
         >
           {showAll ? "VER MENOS" : "VER MÁS"}
