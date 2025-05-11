@@ -1,0 +1,22 @@
+import React from "react";
+import MapView from "../../Map/MapView";
+
+const MapSection: React.FC = () => (
+  <section
+    id="mapa"
+    className="w-full flex flex-col items-center py-24 bg-white bg-opacity-90"
+  >
+    <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center drop-shadow">
+      Mapa de Proyectos Arquitectónicos
+    </h2>
+    <p className="text-lg text-gray-600 mb-8 text-center max-w-2xl">
+      Explora los principales proyectos de desarrollo urbano y arquitectónico en
+      Hermosillo, Sonora
+    </p>
+    <div className="w-full max-w-4xl rounded-xl overflow-hidden shadow-2xl border border-gray-200 h-[500px] bg-white">
+      <MapView openModal={() => {}} />
+    </div>
+  </section>
+);
+
+export default MapSection;
