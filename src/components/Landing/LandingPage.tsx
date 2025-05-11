@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { AppProvider } from "../../context/AppContext";
 import Footer from "../Footer";
 import HeroSection from "./sections/HeroSection";
@@ -18,7 +19,7 @@ const NAV_LINKS = [
   { label: "Contacto", href: "#contacto" },
 ];
 
-const LandingPage: React.FC<{ onEnterApp: () => void }> = ({ onEnterApp }) => {
+const LandingPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState("inicio");
   const sectionsRef = useRef<{ [key: string]: IntersectionObserverEntry }>({});
   const [isHovered, setIsHovered] = useState(false);
@@ -104,12 +105,12 @@ const LandingPage: React.FC<{ onEnterApp: () => void }> = ({ onEnterApp }) => {
                     </a>
                   );
                 })}
-                <button
-                  onClick={onEnterApp}
+                <Link
+                  to="/dashboard"
                   className="font-medium py-2 px-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 text-sm ml-2"
                 >
                   VER PROYECTOS
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -163,7 +164,7 @@ const LandingPage: React.FC<{ onEnterApp: () => void }> = ({ onEnterApp }) => {
                             ? isOverHero
                               ? "w-4 bg-white"
                               : "w-4 bg-gray-800"
-                            : "w-0 group-hover:w-4 bg-white/60"
+                            : "w-0 group-hover:w-4 bg-gray-800/60"
                         }`}
                       />
                       <span className="font-medium tracking-wide text-lg">
@@ -181,23 +182,23 @@ const LandingPage: React.FC<{ onEnterApp: () => void }> = ({ onEnterApp }) => {
                   : "opacity-0 -translate-x-4"
               }`}
             >
-              <button
-                onClick={onEnterApp}
-                className={`font-medium py-2 px-4 rounded-full backdrop-blur-sm transition-all duration-300 text-sm ${
+              <Link
+                to="/dashboard"
+                className={`font-medium py-2 px-4 rounded-full backdrop-blur-sm transition-all duration-300 text-sm inline-block ${
                   isOverHero
                     ? "bg-white/10 hover:bg-white/20 text-white"
                     : "bg-gray-900/10 hover:bg-gray-900/20 text-gray-800"
                 }`}
               >
                 VER PROYECTOS
-              </button>
+              </Link>
             </div>
           </div>
         </nav>
 
         {/* Main Content - All sections as components */}
         <main className="flex-1 pt-16 lg:pt-0">
-          <HeroSection onEnterApp={onEnterApp} />
+          <HeroSection />
           <MapSection />
           <SectorStatsSection />
           <FeaturedTopicsSection />

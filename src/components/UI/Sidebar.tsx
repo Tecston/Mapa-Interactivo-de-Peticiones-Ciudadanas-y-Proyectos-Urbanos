@@ -1,5 +1,6 @@
 // src/components/UI/Sidebar.tsx
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   MapIcon,
   LayoutDashboardIcon,
@@ -12,54 +13,71 @@ import { useAppContext } from "../../context/AppContext";
 
 type ViewType = "map" | "stats" | "admin" | "rewards" | "resources" | "about";
 
-interface SidebarProps {
-  activeView: ViewType;
-  setActiveView: (view: ViewType) => void;
-}
+const NAV_ITEMS: {
+  type: ViewType;
+  label: string;
+  icon: React.ReactNode;
+  path: string;
+}[] = [
+  {
+    type: "map",
+    label: "Mapa",
+    icon: <MapIcon size={20} />,
+    path: "/dashboard/map",
+  },
+  {
+    type: "stats",
+    label: "Estadísticas",
+    icon: <LayoutDashboardIcon size={20} />,
+    path: "/dashboard/stats",
+  },
+  {
+    type: "admin",
+    label: "Administración",
+    icon: <ShieldIcon size={20} />,
+    path: "/dashboard/admin",
+  },
+  {
+    type: "rewards",
+    label: "Recompensas",
+    icon: <AwardIcon size={20} />,
+    path: "/dashboard/rewards",
+  },
+  {
+    type: "resources",
+    label: "Recursos",
+    icon: <BookOpenIcon size={20} />,
+    path: "/dashboard/resources",
+  },
+  {
+    type: "about",
+    label: "Sobre Nosotros",
+    icon: <InfoIcon size={20} />,
+    path: "/dashboard/about",
+  },
+];
 
-const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
+const Sidebar: React.FC = () => {
   const { currentUser } = useAppContext();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <aside className="bg-white shadow-md w-16 md:w-56 flex flex-col">
       <nav className="flex flex-col flex-1 p-2 space-y-1">
-        <SidebarItem
-          icon={<MapIcon size={20} />}
-          label="Mapa"
-          active={activeView === "map"}
-          onClick={() => setActiveView("map")}
-        />
-        <SidebarItem
-          icon={<LayoutDashboardIcon size={20} />}
-          label="Estadísticas"
-          active={activeView === "stats"}
-          onClick={() => setActiveView("stats")}
-        />
-        {currentUser.isAdmin && (
-          <SidebarItem
-            icon={<ShieldIcon size={20} />}
-            label="Administración"
-            active={activeView === "admin"}
-            onClick={() => setActiveView("admin")}
-          />
-        )}
-        <SidebarItem
-          icon={<AwardIcon size={20} />}
-          label="Recompensas"
-          active={activeView === "rewards"}
-          onClick={() => setActiveView("rewards")}
-        />
-        <SidebarItem
-          icon={<BookOpenIcon size={20} />}
-          label="Recursos"
-          active={activeView === "resources"}
-          onClick={() => setActiveView("resources")}
-        />
-        <SidebarItem
-          icon={<InfoIcon size={20} />}
-          label="Sobre Nosotros"
-          active={activeView === "about"}
-          onClick={() => setActiveView("about")}
-        />
+        {NAV_ITEMS.map((item) => {
+          if (item.type === "admin" && !currentUser.isAdmin) return null;
+          return (
+            <SidebarItem
+              key={item.type}
+              icon={item.icon}
+              label={item.label}
+              active={currentPath === item.path}
+              onClick={() => navigate(item.path)}
+            />
+          );
+        })}
       </nav>
       <div className="p-2 md:p-4 border-t border-gray-200 text-center">
         <span className="text-xs text-gray-500 hidden md:block">
