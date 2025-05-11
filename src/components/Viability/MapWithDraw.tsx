@@ -1,67 +1,57 @@
-import { MapContainer, TileLayer } from "react-leaflet"
-import "leaflet-draw"               // side-effect: añade controles a L
-import { useEffect, useRef } from "react"
-import L, { LatLngExpression } from "leaflet"
+import { MapContainer, TileLayer, FeatureGroup } from "react-leaflet";
+import { EditControl } from "react-leaflet-draw";
+
+import "leaflet/dist/leaflet.css";
+import "leaflet-draw/dist/leaflet.draw.css";
+import "leaflet-draw";  
 
 interface MapWithDrawProps {
-  onPolygonComplete: (latlngs: LatLngExpression[]) => void
+  onPolygonCreated: (coordinates: [number, number][]) => void;
 }
 
-export default function MapWithDraw({ onPolygonComplete }: MapWithDrawProps) {
-  const mapRef = useRef<L.Map | null>(null)
-
-  // ––––– configurar el control de dibujo –––––
-  useEffect(() => {
-    if (!mapRef.current) return
-    const map = mapRef.current
-
-    const drawnItems = new L.FeatureGroup()
-    map.addLayer(drawnItems)
-
-    const drawControl = new L.Control.Draw({
-      position: "topleft",
-      draw: {
-        marker: false,
-        circle: false,
-        rectangle: false,
-        polyline: false,
-        circlemarker: false,
-        polygon: {
-          allowIntersection: false,
-          showArea: true,
-          shapeOptions: { color: "#2563eb" },
-        },
-      },
-      edit: { featureGroup: drawnItems, edit: false, remove: true },
-    })
-
-    map.addControl(drawControl)
-
-    map.on(L.Draw.Event.CREATED, (e: any) => {
-      drawnItems.clearLayers()
-      drawnItems.addLayer(e.layer)
-      const latlngs = (e.layer as L.Polygon).getLatLngs()[0] as L.LatLng[]
-      onPolygonComplete(latlngs.map((p) => [p.lat, p.lng]))
-    })
-
-    return () => {
-      map.off()
-      map.removeControl(drawControl)
-      map.removeLayer(drawnItems)
-    }
-  }, [onPolygonComplete])
+export default function MapWithDraw({ onPolygonCreated }: MapWithDrawProps) {
+  // Centro aproximado en Hermosillo
+  const center: [number, number] = [29.072967, -110.955919];
 
   return (
     <MapContainer
-      center={[29.072, -110.955]}
+      center={center}
       zoom={12}
-      style={{ height: "100%", width: "100%" }}
-      whenCreated={(map) => (mapRef.current = map)}
+      style={{ height: "500px", width: "100%" }}
+      scrollWheelZoom
     >
       <TileLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
       />
+
+      {/* --- Contenedor de capas dibujadas --- */}
+      <FeatureGroup>
+        <EditControl
+          position="topleft"
+          draw={{
+            rectangle: false,
+            circle: false,
+            marker: false,
+            circlemarker: false,
+            polyline: false,
+            polygon: {
+              allowIntersection: false,
+              shapeOptions: { color: "#1d4ed8" }, // azul Tailwind
+            },
+          }}
+          edit={{
+            remove: true,
+          }}
+          onCreated={(e: any) => {
+            // Obtenemos las coordenadas del polígono recién creado
+            const layer = e.layer;
+            const latlngs = layer.getLatLngs()[0] as { lat: number; lng: number }[];
+            const coords = latlngs.map(({ lat, lng }) => [lat, lng] as [number, number]);
+            onPolygonCreated(coords);
+          }}
+        />
+      </FeatureGroup>
     </MapContainer>
-  )
+  );
 }

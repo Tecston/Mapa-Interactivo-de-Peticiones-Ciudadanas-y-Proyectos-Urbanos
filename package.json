@@ -21,7 +21,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
-    "react-router-dom": "^7.6.0",
+    "react-leaflet-draw": "^0.20.6",
     "recharts": "^2.15.3",
     "swiper": "^11.2.6"
   },
@@ -40,6 +40,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.1",
     "postcss": "latest",
+    "react-router-dom": "^6.30.0",
     "tailwindcss": "3.4.17",
     "typescript": "^5.5.4",
     "vite": "^5.2.0"

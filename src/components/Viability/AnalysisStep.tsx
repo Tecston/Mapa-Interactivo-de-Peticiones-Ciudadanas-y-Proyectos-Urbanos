@@ -1,47 +1,50 @@
 // src/components/Viability/AnalysisStep.tsx
-import { useState } from "react"
-import { Button } from "../UI/Button"
-import { Label }  from "../UI/Label"
-import { Input }  from "../UI/Input"
-import MapWithDraw from "./MapWithDraw"
+import { useState } from "react";
+import { Button } from "../UI/Button";
+import MapWithDraw from "./MapWithDraw";
 
-interface AnalysisStepProps { onReady: () => void }
+interface AnalysisStepProps {
+  onReady: () => void;
+  onPolygonReady: (coords: [number, number][]) => void;
+}
 
-export default function AnalysisStep({ onReady }: AnalysisStepProps) {
-  const [polygon, setPolygon] = useState<number[][]>([])
-  const [budget,  setBudget]  = useState(15_000_000)
-
-  const formValid = polygon.length >= 3 && budget > 0
+export default function AnalysisStep({ onReady, onPolygonReady }: AnalysisStepProps) {
+  const [budget, setBudget] = useState(15_000_000);
+  const [coords, setCoords] = useState<[number, number][] | null>(null);
 
   return (
-    <section className="grid gap-6 p-6 lg:grid-cols-[2fr_1fr]">
-      {/* MAPA -------------------------------------------------------- */}
-      <div className="h-[480px] w-full overflow-hidden rounded-lg border">
-        <MapWithDraw onPolygonComplete={(p) => setPolygon(p)} />
+    <section className="grid gap-6 p-6 sm:grid-cols-3">
+      {/* Mapa */}
+      <div className="sm:col-span-2">
+        <MapWithDraw
+          onPolygonCreated={(c) => {
+            setCoords(c);
+            onPolygonReady(c);
+          }}
+        />
       </div>
 
-      {/* BARRA LATERAL DE PARÁMETROS -------------------------------- */}
+      {/* Formulario lateral */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold">Parámetros básicos</h2>
+        <h2 className="text-xl font-semibold">Parámetros básicos</h2>
 
-        <div>
-          <Label htmlFor="budget">Presupuesto (MXN)</Label>
-          <Input
-            id="budget"
+        <label className="block text-sm">
+          Presupuesto (MXN)
+          <input
             type="number"
             value={budget}
             onChange={(e) => setBudget(+e.target.value)}
-            min={0}
+            className="mt-1 w-full rounded-md border px-3 py-2"
           />
-        </div>
+        </label>
 
-        <div className="text-sm text-gray-500">
-          Coordenadas capturadas: 
-          {polygon.length ? `${polygon.length} vértices` : "— (dibuja un polígono)"}
-        </div>
+        <p className="text-xs text-gray-500">
+          Coordenadas capturadas:{" "}
+          {coords ? `${coords.length} vértices` : "— (dibuja un polígono)"}
+        </p>
 
         <Button
-          disabled={!formValid}
+          disabled={!coords}
           className="w-full"
           onClick={onReady}
         >
@@ -49,5 +52,5 @@ export default function AnalysisStep({ onReady }: AnalysisStepProps) {
         </Button>
       </div>
     </section>
-  )
+  );
 }
