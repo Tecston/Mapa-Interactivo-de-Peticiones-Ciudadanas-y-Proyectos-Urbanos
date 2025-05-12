@@ -102,7 +102,7 @@ const LandingPage: React.FC = () => {
         }}
       >
         {/* Top Navigation for sm/md/lg screens */}
-        <nav className="w-full z-50 bg-gray-900 sticky xl:hidden">
+        <nav className="w-full bg-gray-900 sticky top-0 z-[999] xl:hidden">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
