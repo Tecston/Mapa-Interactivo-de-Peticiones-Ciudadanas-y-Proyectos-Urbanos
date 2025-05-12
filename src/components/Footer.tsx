@@ -57,7 +57,7 @@ const Footer: React.FC = () => (
       </div>
 
       {/* Bottom bar with copyright and social links */}
-      <div className="border-t border-neutral-800 pt-6 flex flex-col md:flex-row items-center justify-between">
+      <div className="border-t border-gray-8/50 pt-6 flex flex-col md:flex-row items-center justify-between">
         <div className="text-neutral-400 text-sm mb-4 md:mb-0">
           © 2025 Ciudata. Todos los derechos reservados.
         </div>
