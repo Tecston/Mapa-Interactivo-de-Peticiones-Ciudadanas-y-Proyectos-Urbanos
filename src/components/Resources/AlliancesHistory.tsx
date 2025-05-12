@@ -12,24 +12,10 @@ interface Alliance {
 const alliances: Alliance[] = [
   {
     id: "a1",
-    date: "2024-02-15",
+    date: "2024-10-11",
     partner: "Ayuntamiento de Hermosillo",
-    initiative: "Jornadas de limpieza urbana",
-    logoUrl: "/logos/ayuntamiento.png",
-  },
-  {
-    id: "a2",
-    date: "2024-04-10",
-    partner: "COE Sonora Norte",
-    initiative: "Talleres de participación ciudadana",
-    logoUrl: "/logos/coe.png",
-  },
-  {
-    id: "a3",
-    date: "2024-06-20",
-    partner: "Fundación Xignux",
-    initiative: "Desarrollo de plataforma de datos abiertos",
-    logoUrl: "/logos/xignux.png",
+    initiative: "Propuesta de proyecto de urbanización",
+    logoUrl: "/logos/ayuntamiento.jpeg",
   },
 ];
 
@@ -43,7 +29,7 @@ const AlliancesHistory: React.FC = () => (
             <img
               src={logoUrl}
               alt={partner}
-              className="w-12 h-12 object-contain rounded-md"
+              className="w-12 h-12 object-cover rounded-md"
             />
           )}
           <div>
