@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { AppProvider } from "../../context/AppContext";
+import { Menu, X } from "lucide-react";
 import Footer from "../Footer";
 import HeroSection from "./sections/HeroSection";
 import MapSection from "./sections/MapSection";
@@ -21,6 +22,7 @@ const NAV_LINKS = [
 
 const LandingPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState("inicio");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const sectionsRef = useRef<{ [key: string]: IntersectionObserverEntry }>({});
   const [isHovered, setIsHovered] = useState(false);
   const [isOverHero, setIsOverHero] = useState(true);
@@ -69,6 +71,24 @@ const LandingPage: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const nav = document.querySelector("nav");
+      if (nav && !nav.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close menu when clicking a link
+  const handleNavClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <AppProvider>
       <div
@@ -85,17 +105,48 @@ const LandingPage: React.FC = () => {
         <nav className="w-full z-50 bg-gray-900 sticky xl:hidden">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
-              <span className="text-xl font-bold tracking-wide text-white">
-                Ciudata
-              </span>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center">
+                <img
+                  src="./image.png"
+                  alt="Ciudata logo"
+                  className="h-6 w-6 mr-2"
+                />
+                <span className="text-xl font-bold tracking-wide text-white">
+                  Ciudata
+                </span>
+              </div>
+
+              {/* Hamburger Menu Button */}
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="xl:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
+
+            {/* Mobile Menu */}
+            <div
+              className={`xl:hidden transition-all duration-300 ease-in-out ${
+                isMenuOpen
+                  ? "max-h-[500px] opacity-100 visible"
+                  : "max-h-0 opacity-0 invisible"
+              } overflow-hidden`}
+            >
+              <div className="py-4 space-y-1">
                 {NAV_LINKS.map((link) => {
                   const isActive = activeSection === link.href.substring(1);
                   return (
                     <a
                       key={link.href}
                       href={link.href}
-                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      onClick={handleNavClick}
+                      className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                         isActive
                           ? "text-white bg-gray-800"
                           : "text-gray-300 hover:text-white hover:bg-gray-800"
@@ -107,7 +158,8 @@ const LandingPage: React.FC = () => {
                 })}
                 <Link
                   to="/dashboard"
-                  className="font-medium py-2 px-4 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 text-sm ml-2"
+                  onClick={handleNavClick}
+                  className="block mt-4 px-4 py-2 text-center rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 text-sm font-medium"
                 >
                   VER PROYECTOS
                 </Link>
@@ -131,10 +183,15 @@ const LandingPage: React.FC = () => {
               }`}
             >
               <span
-                className={`text-xl font-bold tracking-wide whitespace-nowrap ${
+                className={`text-xl font-bold tracking-wide flex items-center flex-row whitespace-nowrap ${
                   isOverHero ? "text-white" : "text-gray-800"
                 }`}
               >
+                <img
+                  src="./image.png"
+                  alt="Ciudata logo"
+                  className="mr-2 size-6 mb-2"
+                />
                 Ciudata
               </span>
             </div>
@@ -167,7 +224,7 @@ const LandingPage: React.FC = () => {
                             : "w-0 group-hover:w-4 bg-gray-800/60"
                         }`}
                       />
-                      <span className="font-medium tracking-wide text-lg">
+                      <span className="font-medium tracking-wide text-sm">
                         {link.label}
                       </span>
                     </a>
@@ -190,7 +247,7 @@ const LandingPage: React.FC = () => {
                     : "bg-gray-900/10 hover:bg-gray-900/20 text-gray-800"
                 }`}
               >
-                VER PROYECTOS
+                Ver proyectos
               </Link>
             </div>
           </div>
