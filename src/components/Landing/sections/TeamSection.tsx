@@ -2,53 +2,39 @@ import React from "react";
 
 const team = [
   {
-    name: "Jesus",
+    name: "Jesús Medina",
+    role: "Gestión de Proyectos",
+    desc: "Liderazgo en iniciativas sostenibles con base tecnológica.",
+    img: "./profiles/jesus.jpeg",
+    socials: [],
+  },
+  {
+    name: "Gael Astorga",
     role: "Arquitecto Principal",
-    desc: "Especialista en diseño urbano sostenible con enfoque en la adaptación de espacios al clima desértico de Sonora.",
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
-    socials: ["linkedin", "email"],
+    desc: "Especialista en arquitectura sostenible adaptada al clima desértico de Sonora.",
+    img: "./profiles/gael.png",
+    socials: [],
   },
   {
-    name: "Gael",
-    role: "Diseñador de Proyectos",
-    desc: "Experto en visualización 3D y desarrollo de conceptos innovadores para proyectos comerciales y residenciales.",
-    img: "https://randomuser.me/api/portraits/men/33.jpg",
-    socials: ["linkedin", "email"],
+    name: "Julieta López",
+    role: "Marketing Estratégico",
+    desc: "Activa el ecosistema emprendedor sonorense.",
+    img: "./profiles/julieta.jpeg",
+    socials: [],
   },
   {
-    name: "Julieta",
-    role: "Coordinadora de Desarrollo",
-    desc: "Especialista en gestión de proyectos urbanos con enfoque en el impacto social y económico en la comunidad.",
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
-    socials: ["linkedin", "email"],
+    name: "Juan Ruíz",
+    role: "Analista Financiero",
+    desc: "Gestiona la viabilidad económica y optimiza recursos para proyectos con impacto social.",
+    img: "./profiles/juan.jpeg",
+    socials: [],
   },
   {
-    name: "Juan",
-    role: "Analista Urbano",
-    desc: "Analiza datos urbanos y tendencias para apoyar la toma de decisiones estratégicas.",
-    img: "https://randomuser.me/api/portraits/men/45.jpg",
-    socials: ["linkedin", "email"],
-  },
-  {
-    name: "Marco",
+    name: "Marco Montoya",
     role: "Desarrollador Web",
-    desc: "Desarroll y mantiene la plataforma digital de ArquiTec.",
-    img: "https://randomuser.me/api/portraits/men/34.jpg",
-    socials: ["linkedin", "github", "email"],
-  },
-  {
-    name: "Victor",
-    role: "Comunicaciones",
-    desc: "Encargado de la comunicación y difusión de los proyectos.",
-    img: "https://randomuser.me/api/portraits/men/46.jpg",
-    socials: ["linkedin", "email"],
-  },
-  {
-    name: "Yara",
-    role: "Gestor de Proyectos",
-    desc: "Coordina la ejecución y seguimiento de los proyectos urbanos.",
-    img: "https://randomuser.me/api/portraits/men/35.jpg",
-    socials: ["linkedin", "email"],
+    desc: "Desarrollador de interfaces web funcionales y centradas en la experiencia del usuario.",
+    img: "./profiles/marco.jpeg",
+    socials: [],
   },
 ];
 
@@ -61,9 +47,9 @@ const TeamSection: React.FC = () => (
       Nuestro Equipo
     </h2>
     <p className="text-lg text-gray-600 mb-10 text-center max-w-2xl">
-      Conoce a los integrantes que hacen posible ArquiTec
+      Conoce a los integrantes que hacen posible Ciudata
     </p>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-7xl px-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-7xl px-4">
       {team.map((member) => (
         <div
           key={member.name}
