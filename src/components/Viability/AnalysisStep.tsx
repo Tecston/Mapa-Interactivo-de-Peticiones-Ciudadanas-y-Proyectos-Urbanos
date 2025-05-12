@@ -8,7 +8,10 @@ interface AnalysisStepProps {
   onPolygonReady: (coords: [number, number][]) => void;
 }
 
-export default function AnalysisStep({ onReady, onPolygonReady }: AnalysisStepProps) {
+export default function AnalysisStep({
+  onReady,
+  onPolygonReady,
+}: AnalysisStepProps) {
   const [budget, setBudget] = useState(15_000_000);
   const [coords, setCoords] = useState<[number, number][] | null>(null);
 
@@ -43,13 +46,13 @@ export default function AnalysisStep({ onReady, onPolygonReady }: AnalysisStepPr
           {coords ? `${coords.length} vértices` : "— (dibuja un polígono)"}
         </p>
 
-        <Button
+        <button
           disabled={!coords}
-          className="w-full"
+          className="inline-flex items-center justify-center rounded-md bg-blue-9 px-4 py-2 text-sm font-medium text-white hover:bg-blue-10 active:bg-blue-9 disabled:opacity-50  w-full"
           onClick={onReady}
         >
           Continuar
-        </Button>
+        </button>
       </div>
     </section>
   );

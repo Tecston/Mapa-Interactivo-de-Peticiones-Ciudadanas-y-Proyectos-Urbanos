@@ -1,21 +1,21 @@
 // src/components/Viability/DefineStep.tsx
-import { useState } from "react"
-import { Button }  from "../UI/Button"
-import { Label }   from "../UI/Label"
-import { Input }   from "../UI/Input"
-import { TextArea } from "../UI/TextArea"   // nuevo
+import { useState } from "react";
+import { Button } from "../UI/Button";
+import { Label } from "../UI/Label";
+import { Input } from "../UI/Input";
+import { TextArea } from "../UI/TextArea"; // nuevo
 
 interface DefineStepProps {
-  onCreated: () => void
+  onCreated: () => void;
 }
 
 export default function DefineStep({ onCreated }: DefineStepProps) {
-  const [name,      setName]      = useState("")
-  const [objective, setObjective] = useState("")
-  const [stage,     setStage]     = useState("Idea")
-  const [sector,    setSector]    = useState("Comercial")
+  const [name, setName] = useState("");
+  const [objective, setObjective] = useState("");
+  const [stage, setStage] = useState("Idea");
+  const [sector, setSector] = useState("Comercial");
 
-  const canCreate = name.trim() && objective.trim()
+  const canCreate = name.trim() && objective.trim();
 
   return (
     <section className="mx-auto max-w-lg space-y-6 p-6">
@@ -73,13 +73,14 @@ export default function DefineStep({ onCreated }: DefineStepProps) {
       </div>
 
       <div className="flex justify-end">
-        <Button
+        <button
           disabled={!canCreate}
           onClick={onCreated}
+          className="inline-flex items-center justify-center rounded-md bg-blue-9 px-4 py-2 text-sm font-medium text-white hover:bg-blue-10 active:bg-blue-9 disabled:opacity-50 "
         >
           Crear proyecto
-        </Button>
+        </button>
       </div>
     </section>
-  )
+  );
 }
