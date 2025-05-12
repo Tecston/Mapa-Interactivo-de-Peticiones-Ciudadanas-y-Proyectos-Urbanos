@@ -1,81 +1,124 @@
 // File: src/components/AboutUs/AboutUs.tsx
-import React from 'react'
-import HistoryTimeline from '../Timeline/HistoryTimeline'
-import Card from '../UI/Card'
-
-interface TeamMember {
-  id: string
-  name: string
-  role: string
-  photoUrl: string
-}
-
-const team: TeamMember[] = [
-  { id: '1', name: 'Jesús', role: 'Arquitecto Principal', photoUrl: '/images/jesus.jpg' },
-  { id: '2', name: 'Gael', role: 'Diseñador de Proyectos', photoUrl: '/images/gael.jpg' },
-  { id: '3', name: 'Julieta', role: 'Coordinadora de Desarrollo', photoUrl: '/images/julieta.jpg' },
-]
+import React from "react";
+import HistoryTimeline from "../Timeline/HistoryTimeline";
+import { Users, Target, Eye, Award, Building2, Handshake } from "lucide-react";
 
 const AboutUs: React.FC = () => (
-  <div className="space-y-6">
+  <div className="min-h-full w-full bg-white border border-gray-100 p-6 rounded-lg space-y-8">
     {/* Timeline de historia */}
     <HistoryTimeline />
 
     {/* Sección Sobre Nosotros */}
-    <section className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-2xl font-bold mb-4">Sobre Nosotros</h2>
-      <p className="text-gray-700">
-        Somos un equipo multidisciplinario que busca empoderar a la ciudadanía de Hermosillo
-        para mejorar la calidad de vida urbana mediante participación directa, datos abiertos
-        y soluciones tecnológicas.
-      </p>
-      <p className="mt-4 text-gray-700">
-        <strong>Misión:</strong> Fomentar la colaboración ciudadana para la mejora de espacios públicos.
-      </p>
-      <p className="mt-2 text-gray-700">
-        <strong>Visión:</strong> Una ciudad sostenible y participativa donde cada voz cuenta.
-      </p>
-      <ul className="mt-4 list-disc list-inside text-gray-700">
-        <li>Transparencia</li>
-        <li>Colaboración</li>
-        <li>Sostenibilidad</li>
-      </ul>
-    </section>
+    <section className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-3 bg-blue-100 rounded-lg">
+          <Users className="w-6 h-6 text-blue-600" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900">Sobre Nosotros</h2>
+      </div>
 
-    {/* Nuestro Equipo */}
-    <section>
-      <h3 className="text-xl font-semibold mb-4">Nuestro Equipo</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {team.map((member) => (
-          <Card
-            key={member.id}
-            title={member.name}
-            description={member.role}
-            author={member.name}
-            date=""
-            category="Equipo"
-            supports={0}
-            comments={0}
-            imageUrl={member.photoUrl}
-          />
-        ))}
+      <p className="text-gray-600 text-lg leading-relaxed mb-6">
+        Somos un equipo multidisciplinario que busca empoderar a la ciudadanía
+        de Hermosillo para mejorar la calidad de vida urbana mediante
+        participación directa, datos abiertos y soluciones tecnológicas.
+      </p>
+
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 bg-green-100 rounded-lg">
+              <Target className="w-5 h-5 text-green-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900">Misión</h3>
+          </div>
+          <p className="text-gray-600">
+            Fomentar la colaboración ciudadana para la mejora de espacios
+            públicos.
+          </p>
+        </div>
+
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <Eye className="w-5 h-5 text-purple-600" />
+            </div>
+            <h3 className="font-semibold text-gray-900">Visión</h3>
+          </div>
+          <p className="text-gray-600">
+            Una ciudad sostenible y participativa donde cada voz cuenta.
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-blue-50 rounded-lg p-6 border border-blue-100">
+        <h3 className="font-semibold text-gray-900 mb-4">Nuestros Valores</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Award className="w-5 h-5 text-blue-600" />
+            </div>
+            <span className="text-gray-700">Transparencia</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Users className="w-5 h-5 text-blue-600" />
+            </div>
+            <span className="text-gray-700">Colaboración</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Award className="w-5 h-5 text-blue-600" />
+            </div>
+            <span className="text-gray-700">Sostenibilidad</span>
+          </div>
+        </div>
       </div>
     </section>
 
     {/* Alianzas y Logros */}
-    <section className="bg-white rounded-lg shadow-sm p-6">
-      <h3 className="text-lg font-semibold mb-2">Alianzas y Logros</h3>
-      <p className="text-gray-700 mb-2">
-        Colaboramos con el Ayuntamiento de Hermosillo y el COE Sonora Norte.
-      </p>
-      <p className="text-gray-700">
-        Hasta hoy contamos con 200 usuarios activos en sesiones piloto y más de 500 reportes ciudadanas.
-      </p>
-      <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+    <section className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-3 bg-green-100 rounded-lg">
+          <Building2 className="w-6 h-6 text-green-600" />
+        </div>
+        <h3 className="text-2xl font-bold text-gray-900">Alianzas y Logros</h3>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <Handshake className="w-5 h-5 text-blue-600" />
+            </div>
+            <h4 className="font-semibold text-gray-900">
+              Alianzas Estratégicas
+            </h4>
+          </div>
+          <p className="text-gray-600">
+            Colaboramos con el Ayuntamiento de Hermosillo y el COE Sonora Norte.
+          </p>
+        </div>
+
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 bg-green-100 rounded-lg">
+              <Award className="w-5 h-5 text-green-600" />
+            </div>
+            <h4 className="font-semibold text-gray-900">Impacto</h4>
+          </div>
+          <p className="text-gray-600">
+            Hasta hoy contamos con 200 usuarios activos en sesiones piloto y más
+            de 500 reportes ciudadanos.
+          </p>
+        </div>
+      </div>
+
+      <button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-9 text-white rounded-lg hover:bg-blue-10 transition-colors duration-200 shadow-sm">
+        <Handshake className="w-5 h-5" />
         Contáctanos
       </button>
     </section>
   </div>
-)
+);
 
-export default AboutUs
+export default AboutUs;

@@ -6,7 +6,7 @@ const HeroSection: React.FC = () => (
     id="inicio"
     className="flex flex-col items-center justify-center min-h-screen pt-16 pb-16 text-center px-6"
   >
-    <h1 className="text-5xl w-3/4 md:text-6xl font-extrabold text-white mb-6 drop-shadow-lg">
+    <h1 className="text-5xl w-3/4 md:text-6xl font-extrabold text-foreground mb-6 drop-shadow-lg">
       Tu mapa de ruta para materializar tu proyecto y crecer en Hermosillo.
     </h1>
     <p className="text-2xl md:text-2xl text-indigo-100 mb-10 max-w-2xl mx-auto drop-shadow-sm">

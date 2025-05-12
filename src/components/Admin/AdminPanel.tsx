@@ -1,50 +1,59 @@
 // src/components/Admin/AdminPanel.tsx
-import React, { useState } from 'react'
-import { useAppContext } from '../../context/AppContext'
-import { TrashIcon, CheckIcon, XIcon } from 'lucide-react'
+import React, { useState } from "react";
+import { useAppContext } from "../../context/AppContext";
+import { TrashIcon, CheckIcon, XIcon } from "lucide-react";
 
 const AdminPanel: React.FC = () => {
-  const { requests, projects, deleteRequest, deleteProject } = useAppContext()
-  const [activeTab, setActiveTab] = useState<'requests' | 'projects'>('requests')
+  const { requests, projects, deleteRequest, deleteProject } = useAppContext();
+  const [activeTab, setActiveTab] = useState<"requests" | "projects">(
+    "requests"
+  );
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
       <h2 className="text-2xl font-bold mb-6">Panel de Administración</h2>
 
       {/* Pestañas */}
-      <div className="flex border-b border-gray-200 mb-6">
+      <div className="flex  border-gray-200 mb-6">
         <button
           className={`py-2 px-4 font-medium ${
-            activeTab === 'requests'
-              ? 'border-b-2 border-blue-500 text-blue-600'
-              : 'text-gray-500 hover:text-gray-700'
+            activeTab === "requests"
+              ? "hover:bg-gray-3 hover:text-gray-12 border-b-2 border-blue-9 text-gray-11"
+              : "hover:bg-gray-3 hover:text-gray-12 border-b-1 border-gray-5 text-gray-11 hover:text-gray-700"
           }`}
-          onClick={() => setActiveTab('requests')}
+          onClick={() => setActiveTab("requests")}
         >
           Peticiones
         </button>
         <button
           className={`py-2 px-4 font-medium ${
-            activeTab === 'projects'
-              ? 'border-b-2 border-blue-500 text-blue-600'
-              : 'text-gray-500 hover:text-gray-700'
+            activeTab === "projects"
+              ? "hover:bg-gray-3 hover:text-gray-12 border-b-2 border-blue-9 text-gray-11"
+              : "hover:bg-gray-3 hover:text-gray-12 border-b-1 border-gray-5 text-gray-11 hover:text-gray-700"
           }`}
-          onClick={() => setActiveTab('projects')}
+          onClick={() => setActiveTab("projects")}
         >
           Proyectos
         </button>
       </div>
 
       {/* Tabla de Peticiones */}
-      {activeTab === 'requests' && (
+      {activeTab === "requests" && (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-blue-3">
               <tr>
-                {['Título','Autor','Categoría','Fecha','Apoyos','Acciones'].map((h) => (
+                {[
+                  "Título",
+                  "Autor",
+                  "Categoría",
+                  "Fecha",
+                  "Apoyos",
+                  "Acciones",
+                ].map((h) => (
                   <th
                     key={h}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-blue-10 uppercase tracking-wider"
                   >
                     {h}
                   </th>
@@ -100,15 +109,22 @@ const AdminPanel: React.FC = () => {
       )}
 
       {/* Tabla de Proyectos */}
-      {activeTab === 'projects' && (
+      {activeTab === "projects" && (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-blue-3">
               <tr>
-                {['Título','Institución','Estado','Fecha Inicio','Valoración','Acciones'].map((h) => (
+                {[
+                  "Título",
+                  "Institución",
+                  "Estado",
+                  "Fecha Inicio",
+                  "Valoración",
+                  "Acciones",
+                ].map((h) => (
                   <th
                     key={h}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-blue-10 uppercase tracking-wider"
                   >
                     {h}
                   </th>
@@ -127,18 +143,18 @@ const AdminPanel: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        proj.status === 'planning'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : proj.status === 'in-progress'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-green-100 text-green-800'
+                        proj.status === "planning"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : proj.status === "in-progress"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-green-100 text-green-800"
                       }`}
                     >
-                      {proj.status === 'planning'
-                        ? 'Planeación'
-                        : proj.status === 'in-progress'
-                        ? 'En progreso'
-                        : 'Completado'}
+                      {proj.status === "planning"
+                        ? "Planeación"
+                        : proj.status === "in-progress"
+                        ? "En progreso"
+                        : "Completado"}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -163,7 +179,7 @@ const AdminPanel: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default AdminPanel
+export default AdminPanel;
