@@ -11,7 +11,7 @@ const MapSection: React.FC = () => (
     </h2>
     <p className="text-lg text-gray-600 mb-8 text-center max-w-2xl">
       Explora los principales proyectos de desarrollo urbano y arquitectónico en
-      Hermosillo, Sonora
+      tu ciudad
     </p>
     <div className="w-full max-w-4xl rounded-xl overflow-hidden shadow-2xl border border-gray-200 h-[500px] bg-white">
       <MapView openModal={() => {}} />

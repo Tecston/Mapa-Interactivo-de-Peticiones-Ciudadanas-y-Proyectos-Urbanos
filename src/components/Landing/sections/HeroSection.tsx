@@ -7,11 +7,11 @@ const HeroSection: React.FC = () => (
     className="flex flex-col items-center justify-center min-h-screen pt-16 pb-16 text-center px-6"
   >
     <h1 className="text-5xl w-3/4 md:text-6xl font-extrabold text-foreground mb-6 drop-shadow-lg">
-      Tu mapa de ruta para materializar tu proyecto y crecer en Hermosillo.
+      Tu mapa de ruta para materializar tu proyecto y crecer en tu ciudad.
     </h1>
     <p className="text-2xl md:text-2xl text-indigo-100 mb-10 max-w-2xl mx-auto drop-shadow-sm">
-      Descubre los proyectos arquitectónicos más destacados y conoce el
-      desarrollo urbano de nuestra región.
+      Descubre los proyectos más destacados y conoce el desarrollo urbano de
+      nuestra región.
     </p>
     <div className="flex flex-col md:flex-row gap-4 justify-center">
       <Link
