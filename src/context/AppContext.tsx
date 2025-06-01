@@ -1,15 +1,26 @@
-// src/context/AppContext.tsx
-import React, { useState, createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const API_URL = `${API_BASE}/reportes`;
+
+export interface Comment {
+  id: string;
+  author: string;
+  text: string;
+  date: string;
+}
 
 export interface Request {
   id: string;
   title: string;
   description: string;
-  location: [number, number];
+  category: string;
+  location: { lat: number; lng: number };
   imageUrl?: string;
   authorName: string;
+  contactPhone: string;
   date: string;
-  category: string;
   supports: number;
   comments: Comment[];
 }
@@ -21,19 +32,12 @@ export interface Project {
   location: [number, number];
   imageUrl?: string;
   institution: string;
-  status: 'planning' | 'in-progress' | 'completed';
+  status: "planning" | "in-progress" | "completed";
   startDate: string;
   endDate?: string;
   likes: number;
   dislikes: number;
   comments: Comment[];
-}
-
-export interface Comment {
-  id: string;
-  author: string;
-  text: string;
-  date: string;
 }
 
 export interface User {
@@ -47,203 +51,112 @@ interface AppContextType {
   requests: Request[];
   projects: Project[];
   currentUser: User;
-  addRequest: (request: Omit<Request, 'id' | 'date' | 'supports' | 'comments'>) => void;
-  addProject: (project: Omit<Project, 'id' | 'likes' | 'dislikes' | 'comments'>) => void;
-  supportRequest: (requestId: string) => void;
-  likeProject: (projectId: string) => void;
-  dislikeProject: (projectId: string) => void;
-  addComment: (type: 'request' | 'project', id: string, text: string) => void;
+  addRequest: (data: Omit<Request, "id" | "date" | "supports" | "comments">) => void;
+  addProject: (data: Omit<Project, "id" | "likes" | "dislikes" | "comments">) => void;
+  supportRequest: (id: string) => void;
+  likeProject: (id: string) => void;
+  dislikeProject: (id: string) => void;
+  addComment: (type: "request" | "project", id: string, text: string) => void;
   deleteRequest: (id: string) => void;
   deleteProject: (id: string) => void;
+  fetchRequests: () => void;
 }
 
-// ——— Datos iniciales ———
-const initialRequests: Request[] = [
-  {
-    id: '1',
-    title: 'Mejorar drenaje pluvial en Paseo del Pedregal',
-    description: 'Durante lluvias fuertes, la zona sufre inundaciones. Se necesita intervención para mejorar el drenaje pluvial.',
-    location: [29.054100, -110.980900],
-    imageUrl: 'https://images.unsplash.com/photo-1552083375-1447ce886485',
-    authorName: 'Lucía Romero',
-    date: '2024-11-02',
-    category: 'Infraestructura',
-    supports: 17,
-    comments: [
-      {
-        id: 'c1',
-        author: 'Andrés Ruiz',
-        text: 'Es urgente, cada año hay daños en las casas.',
-        date: '2024-11-03',
-      },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Solicitamos reforestación en la colonia La Manga',
-    description: 'La zona ha perdido árboles en los últimos años. Pedimos un plan de reforestación con especies nativas.',
-    location: [29.017890, -110.956220],
-    authorName: 'Raúl Espinoza',
-    date: '2024-11-04',
-    category: 'Medio Ambiente',
-    supports: 32,
-    comments: [],
-  },
-];
+const initialProjects: Project[] = [];
+const initialUser: User = { id: "1", name: "Usuario Demo", points: 50, isAdmin: true };
 
-const initialProjects: Project[] = [
-  {
-    id: '1',
-    title: 'Centro Cultural del Sur',
-    description: 'Espacio dedicado a actividades culturales, artísticas y recreativas en el sector sur de Hermosillo.',
-    location: [29.015300, -111.004200],
-    imageUrl: 'https://inba.gob.mx/multimedia/espacios-culturales/68/68-EC-BG-teatro_julio_castillo.jpg',
-    institution: 'Instituto Municipal de Cultura',
-    status: 'planning',
-    startDate: '2025-01-10',
-    endDate: '2025-10-30',
-    likes: 65,
-    dislikes: 5,
-    comments: [],
-  },
-  {
-    id: '2',
-    title: 'Mercado de productores KM0',
-    description: 'Desarrollo de un espacio comercial para venta directa de productos regionales y orgánicos en la colonia Las Quintas.',
-    location: [29.083320, -110.965470],
-
-    institution: 'Secretaría de Economía Social',
-    status: 'in-progress',
-    startDate: '2024-08-01',
-    endDate: '2025-03-15',
-    likes: 98,
-    dislikes: 7,
-    comments: [
-      {
-        id: 'c1',
-        author: 'María Félix',
-        text: 'Gran iniciativa, esto impulsará a los productores locales.',
-        date: '2024-09-01',
-      },
-    ],
-  },
-];
-
-const initialUser: User = {
-  id: '1',
-  name: 'Usuario Demo',
-  points: 50,
-  isAdmin: true,
-};
-
-// ——— Contexto ———
 export const AppContext = createContext<AppContextType>({} as AppContextType);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [requests, setRequests] = useState<Request[]>(initialRequests);
+  const [requests, setRequests] = useState<Request[]>([]);
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [currentUser, setCurrentUser] = useState<User>(initialUser);
 
-  const addRequest = (request: Omit<Request, 'id' | 'date' | 'supports' | 'comments'>) => {
-    const newRequest: Request = {
-      ...request,
-      id: `req-${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
-      supports: 0,
-      comments: [],
-    };
-    setRequests([...requests, newRequest]);
-    setCurrentUser({ ...currentUser, points: currentUser.points + 10 });
+  const fetchRequests = async () => {
+    try {
+      const res = await axios.get(API_URL);
+      const data: Request[] = res.data.map((item: any) => ({
+        id: `${item.id}`,
+        title: item.title,
+        description: item.description,
+        category: item.category,
+        authorName: item.authorName,
+        contactPhone: item.contactPhone ?? "",
+        imageUrl: item.imageUrl ?? "",
+        date: item.date,
+        supports: item.supports ?? 0,
+        comments: item.comments ?? [],
+        location: { lat: item.location.lat, lng: item.location.lng },
+      }));
+      setRequests(data);
+    } catch {}
   };
 
-  const addProject = (project: Omit<Project, 'id' | 'likes' | 'dislikes' | 'comments'>) => {
-    const newProject: Project = {
-      ...project,
-      id: `proj-${Date.now()}`,
-      likes: 0,
-      dislikes: 0,
-      comments: [],
-    };
-    setProjects([...projects, newProject]);
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
+  const addRequest = async (data: Omit<Request, "id" | "date" | "supports" | "comments">) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("category", data.category);
+      formData.append("authorName", data.authorName);
+      formData.append("contactPhone", data.contactPhone);
+      formData.append("location", JSON.stringify(data.location));
+      if (data.imageUrl) {
+        const blob = await fetch(data.imageUrl).then(r => r.blob());
+        formData.append("image", new File([blob], "image.jpg", { type: blob.type }));
+      }
+      await axios.post(API_URL, formData);
+      fetchRequests();
+    } catch {}
   };
 
-  const supportRequest = (requestId: string) => {
-    setRequests(
-      requests.map((req) =>
-        req.id === requestId ? { ...req, supports: req.supports + 1 } : req
-      )
-    );
-    setCurrentUser({ ...currentUser, points: currentUser.points + 2 });
+  const addProject = (data: Omit<Project, "id" | "likes" | "dislikes" | "comments">) => {
+    setProjects(p => [...p, { ...data, id: `proj-${Date.now()}`, likes: 0, dislikes: 0, comments: [] }]);
   };
 
-  const likeProject = (projectId: string) => {
-    setProjects(
-      projects.map((proj) =>
-        proj.id === projectId ? { ...proj, likes: proj.likes + 1 } : proj
-      )
-    );
-    setCurrentUser({ ...currentUser, points: currentUser.points + 1 });
+  const supportRequest = (id: string) => {
+    setRequests(r => r.map(e => (e.id === id ? { ...e, supports: e.supports + 1 } : e)));
+    setCurrentUser(u => ({ ...u, points: u.points + 2 }));
   };
 
-  const dislikeProject = (projectId: string) => {
-    setProjects(
-      projects.map((proj) =>
-        proj.id === projectId ? { ...proj, dislikes: proj.dislikes + 1 } : proj
-      )
-    );
+  const likeProject = (id: string) => {
+    setProjects(p => p.map(e => (e.id === id ? { ...e, likes: e.likes + 1 } : e)));
+    setCurrentUser(u => ({ ...u, points: u.points + 1 }));
   };
 
-  const addComment = (type: 'request' | 'project', id: string, text: string) => {
-    const newComment: Comment = {
-      id: `comment-${Date.now()}`,
-      author: currentUser.name,
-      text,
-      date: new Date().toISOString().split('T')[0],
-    };
-    if (type === 'request') {
-      setRequests(
-        requests.map((req) =>
-          req.id === id ? { ...req, comments: [...req.comments, newComment] } : req
-        )
-      );
+  const dislikeProject = (id: string) => {
+    setProjects(p => p.map(e => (e.id === id ? { ...e, dislikes: e.dislikes + 1 } : e)));
+  };
+
+  const addComment = (type: "request" | "project", id: string, text: string) => {
+    const comment: Comment = { id: `c-${Date.now()}`, author: currentUser.name, text, date: new Date().toISOString().split("T")[0] };
+    if (type === "request") {
+      setRequests(r => r.map(e => (e.id === id ? { ...e, comments: [...e.comments, comment] } : e)));
     } else {
-      setProjects(
-        projects.map((proj) =>
-          proj.id === id ? { ...proj, comments: [...proj.comments, newComment] } : proj
-        )
-      );
+      setProjects(p => p.map(e => (e.id === id ? { ...e, comments: [...e.comments, comment] } : e)));
     }
-    setCurrentUser({ ...currentUser, points: currentUser.points + 3 });
   };
 
-  const deleteRequest = (id: string) => {
-    setRequests(requests.filter((req) => req.id !== id));
+  const deleteRequest = async (id: string) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      setRequests(r => r.filter(e => e.id !== id));
+    } catch {}
   };
 
   const deleteProject = (id: string) => {
-    setProjects(projects.filter((proj) => proj.id !== id));
+    setProjects(p => p.filter(e => e.id !== id));
   };
 
   return (
-    <AppContext.Provider
-      value={{
-        requests,
-        projects,
-        currentUser,
-        addRequest,
-        addProject,
-        supportRequest,
-        likeProject,
-        dislikeProject,
-        addComment,
-        deleteRequest,
-        deleteProject,
-      }}
-    >
+    <AppContext.Provider value={{ requests, projects, currentUser, addRequest, addProject, supportRequest, likeProject, dislikeProject, addComment, deleteRequest, deleteProject, fetchRequests }}>
       {children}
     </AppContext.Provider>
   );
 };
 
-// ✅ Export necesario para usar el contexto sin errores
 export const useAppContext = () => useContext(AppContext);
