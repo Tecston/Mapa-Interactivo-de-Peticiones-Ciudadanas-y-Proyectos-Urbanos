@@ -17,9 +17,9 @@ import {
 
 const modules = [
   {
-    title: "Análisis de viabilidad urbana",
-    desc: "Evaluación profunda de factibilidad técnica, económica y social para intervenciones urbanas. Integra datos catastrales, socioeconómicos, ambientales y de mercado para generar informes con puntuaciones, alertas y recomendaciones.",
-    icon: <Landmark size={20} />,
+    title: "Participación ciudadana",
+    desc: "Plataforma para que los ciudadanos creen peticiones georreferenciadas, apoyen o rechacen propuestas, y aporten comentarios estructurados, recibiendo incentivos canjeables por beneficios locales.",
+    icon: <Users size={20} />,
   },
   {
     title: "Análisis geoespacial",
@@ -27,33 +27,33 @@ const modules = [
     icon: <Map size={20} />,
   },
   {
-    title: "Participación ciudadana",
-    desc: "Plataforma para que los ciudadanos creen peticiones georreferenciadas, apoyen o rechacen propuestas, y aporten comentarios estructurados, recibiendo incentivos canjeables por beneficios locales.",
-    icon: <Users size={20} />,
+    title: "Análisis de viabilidad urbana",
+    desc: "Evaluación profunda de factibilidad técnica, económica y social para intervenciones urbanas. Integra datos catastrales, socioeconómicos, ambientales y de mercado para generar informes con puntuaciones, alertas y recomendaciones.",
+    icon: <Landmark size={20} />,
   },
-  {
-    title: "Modelos predictivos y recomendación",
-    desc: "Algoritmos de machine learning que estiman la probabilidad de éxito de proyectos y sugieren ajustes en ubicación, densidad, usos de suelo y cronogramas, presentados en paneles interactivos.",
-    icon: <Activity size={20} />,
-  },
+  // {
+  //   title: "Modelos predictivos y recomendación",
+  //   desc: "Algoritmos de machine learning que estiman la probabilidad de éxito de proyectos y sugieren ajustes en ubicación, densidad, usos de suelo y cronogramas, presentados en paneles interactivos.",
+  //   icon: <Activity size={20} />,
+  // },
   {
     title: "Integración de datos oficiales y privados",
     desc: "Procesos ETL regulares para consolidar información de fuentes oficiales, encuestas ciudadanas y datasets privados, asegurando análisis sobre datos actualizados y completos.",
     icon: <Database size={20} />,
   },
-  {
-    title: "Gestión de proyectos urbanos",
-    desc: "Herramienta para que desarrolladores y gobiernos registren proyectos, asignen responsables e hitos, con tableros de seguimiento para monitorear aprobaciones, avances y comentarios ciudadanos.",
-    icon: <ClipboardList size={20} />,
-  },
-  {
-    title: "Colaboración multiactor",
-    desc: "Espacio colaborativo para funcionarios, consultores, arquitectos y líderes comunitarios, con foros, mensajería y repositorio compartido de documentos, con roles y permisos diferenciados.",
-    icon: <Users2 size={20} />,
-  },
+  // {
+  //   title: "Gestión de proyectos urbanos",
+  //   desc: "Herramienta para que desarrolladores y gobiernos registren proyectos, asignen responsables e hitos, con tableros de seguimiento para monitorear aprobaciones, avances y comentarios ciudadanos.",
+  //   icon: <ClipboardList size={20} />,
+  // },
+  // {
+  //   title: "Colaboración multiactor",
+  //   desc: "Espacio colaborativo para funcionarios, consultores, arquitectos y líderes comunitarios, con foros, mensajería y repositorio compartido de documentos, con roles y permisos diferenciados.",
+  //   icon: <Users2 size={20} />,
+  // },
   {
     title: "Reportes y exportación",
-    desc: "Generación de reportes personalizados en PDF o PowerPoint combinando mapas, tablas, gráficos y texto explicativo, con capacidad de exportar datasets geoespaciales o tablas.",
+    desc: "Generación de reportes personalizados combinando mapas, tablas, gráficos y texto explicativo, con capacidad de exportar datasets geoespaciales o tablas.",
     icon: <FileText size={20} />,
   },
   {
@@ -66,11 +66,11 @@ const modules = [
     desc: "Dashboards interactivos con filtros por zona, periodo y categoría, incluyendo series temporales, mapas de calor y diagramas de redes, optimizados para múltiples dispositivos.",
     icon: <BarChart3 size={20} />,
   },
-  {
-    title: "Seguridad y permisos",
-    desc: "Sistema con autenticación multifactor y control de acceso por roles, registrando cada acción en logs de auditoría para garantizar trazabilidad y cumplimiento normativo.",
-    icon: <Shield size={20} />,
-  },
+  // {
+  //   title: "Seguridad y permisos",
+  //   desc: "Sistema con autenticación multifactor y control de acceso por roles, registrando cada acción en logs de auditoría para garantizar trazabilidad y cumplimiento normativo.",
+  //   icon: <Shield size={20} />,
+  // },
   {
     title: "Gamificación e incentivos",
     desc: "Sistema de badges y niveles que premian la participación ciudadana, permitiendo canjear puntos por cupones locales, sorteos de entradas o descuentos en servicios municipales.",
