@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css" layer(utilities);
 @import "leaflet-draw/dist/leaflet.draw.css" layer(utilities);
+@plugin "@tailwindcss/typography";
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,

@@ -18,6 +18,8 @@ import RequestForm from "./components/Forms/RequestForm";
 import ProjectForm from "./components/Forms/ProjectForm";
 import LandingPage from "./components/Landing/LandingPage";
 import ViabilityPage from "./pages/ViabilityPage";
+import BlogList from "./components/Blog/BlogList";
+import BlogPost from "./components/Blog/BlogPost";
 
 import { AppProvider } from "./context/AppContext";
 
@@ -49,7 +51,11 @@ export function App() {
           {/* Página de inicio */}
           <Route path="/" element={<LandingPage />} />
 
-          {/* Panel principal con sidebar */}
+          {/* Blog routes */}
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
+
+          {/* Dashboard con sidebar */}
           <Route
             path="/dashboard/*"
             element={
