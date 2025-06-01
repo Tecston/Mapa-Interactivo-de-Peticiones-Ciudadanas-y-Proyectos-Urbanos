@@ -1,5 +1,5 @@
 import React from "react";
-import MapView from "../../Map/MapView";
+import LandingMapView from "../../Map/LandingMapView";
 
 const MapSection: React.FC = () => (
   <section
@@ -14,7 +14,7 @@ const MapSection: React.FC = () => (
       Hermosillo, Sonora
     </p>
     <div className="w-full max-w-4xl rounded-xl overflow-hidden shadow-2xl border border-gray-200 h-[500px] bg-white">
-      <MapView openModal={() => {}} />
+      <LandingMapView />
     </div>
   </section>
 );

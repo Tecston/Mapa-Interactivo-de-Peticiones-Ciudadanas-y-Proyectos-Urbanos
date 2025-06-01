@@ -71,7 +71,6 @@ const LandingPage: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const nav = document.querySelector("nav");
@@ -84,7 +83,6 @@ const LandingPage: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close menu when clicking a link
   const handleNavClick = () => {
     setIsMenuOpen(false);
   };
@@ -101,41 +99,24 @@ const LandingPage: React.FC = () => {
           backgroundAttachment: "fixed",
         }}
       >
-        {/* Top Navigation for sm/md/lg screens */}
         <nav className="w-full bg-gray-900 sticky top-0 z-[999] xl:hidden">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <img
-                  src="./image.png"
-                  alt="Ciudata logo"
-                  className="h-6 w-6 mr-2"
-                />
-                <span className="text-xl font-bold tracking-wide text-white">
-                  Ciudata
-                </span>
+                <img src="/image.png" alt="Ciudata logo" className="h-6 w-6 mr-2" />
+                <span className="text-xl font-bold tracking-wide text-white">Ciudata</span>
               </div>
-
-              {/* Hamburger Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="xl:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none"
                 aria-label="Toggle menu"
               >
-                {isMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>
-
-            {/* Mobile Menu */}
             <div
               className={`xl:hidden transition-all duration-300 ease-in-out ${
-                isMenuOpen
-                  ? "max-h-[500px] opacity-100 visible"
-                  : "max-h-0 opacity-0 invisible"
+                isMenuOpen ? "max-h-[500px] opacity-100 visible" : "max-h-0 opacity-0 invisible"
               } overflow-hidden`}
             >
               <div className="py-4 space-y-1">
@@ -168,7 +149,6 @@ const LandingPage: React.FC = () => {
           </div>
         </nav>
 
-        {/* Side Navigation for xl screens and up */}
         <nav
           className={`fixed left-0 top-0 h-full z-50 hidden xl:flex flex-col items-start justify-center pl-12`}
           onMouseEnter={() => setIsHovered(true)}
@@ -177,9 +157,7 @@ const LandingPage: React.FC = () => {
           <div className="relative mt-24">
             <div
               className={`absolute -left-8 top-1 pb-10 -translate-y-1/2 transition-all duration-300 ${
-                isHovered
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-4"
+                isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
               }`}
             >
               <span
@@ -187,15 +165,10 @@ const LandingPage: React.FC = () => {
                   isOverHero ? "text-white" : "text-gray-800"
                 }`}
               >
-                <img
-                  src="./image.png"
-                  alt="Ciudata logo"
-                  className="mr-2 size-6 mb-2"
-                />
+                <img src="/image.png" alt="Ciudata logo" className="mr-2 size-6 mb-2" />
                 Ciudata
               </span>
             </div>
-            {/* Nav Links */}
             <ul className="space-y-6">
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
@@ -214,7 +187,6 @@ const LandingPage: React.FC = () => {
                       }`}
                       style={{ minWidth: 120 }}
                     >
-                      {/* Active indicator line */}
                       <div
                         className={`absolute -left-6 top-1/2 -translate-y-1/2 h-0.5 transition-all duration-300 ${
                           isActive
@@ -224,9 +196,7 @@ const LandingPage: React.FC = () => {
                             : "w-0 group-hover:w-4 bg-gray-800/60"
                         }`}
                       />
-                      <span className="font-medium tracking-wide text-sm">
-                        {link.label}
-                      </span>
+                      <span className="font-medium tracking-wide text-sm">{link.label}</span>
                     </a>
                   </li>
                 );
@@ -234,9 +204,7 @@ const LandingPage: React.FC = () => {
             </ul>
             <div
               className={`mt-8 transition-all duration-300 ${
-                isHovered
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-4"
+                isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
               }`}
             >
               <Link
@@ -253,7 +221,6 @@ const LandingPage: React.FC = () => {
           </div>
         </nav>
 
-        {/* Main Content - All sections as components */}
         <main className="flex-1 pt-16 lg:pt-0">
           <HeroSection />
           <MapSection />

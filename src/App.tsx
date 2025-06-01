@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState } from "react";
 import {
   BrowserRouter as Router,
@@ -9,7 +8,7 @@ import {
 
 import Header from "./components/UI/Header";
 import Sidebar from "./components/UI/Sidebar";
-import MapView from "./components/Map/MapView";
+import PlatformMapView from "./components/Map/PlatformMapView";
 import DataVisualization from "./components/Dashboard/DataVisualization";
 import AdminPanel from "./components/Admin/AdminPanel";
 import Rewards from "./components/Rewards/Rewards";
@@ -26,46 +25,42 @@ import "./index.css";
 
 export function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<
-    "request" | "project" | null
-  >(null);
+  const [modalContent, setModalContent] = useState<"request" | "project" | null>(null);
+  const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-  /** ---------- helpers ----------- */
-  const openModal = (content: "request" | "project") => {
+  const openModal = (content: "request" | "project", coords?: { lat: number; lng: number }) => {
     setModalContent(content);
     setIsModalOpen(true);
+    if (coords) {
+      setSelectedCoords(coords);
+    }
   };
+
   const closeModal = () => {
     setModalContent(null);
     setIsModalOpen(false);
+    setSelectedCoords(null);
   };
 
   return (
     <Router>
       <AppProvider>
         <Routes>
-          {/* Landing puro */}
+          {/* Página de inicio */}
           <Route path="/" element={<LandingPage />} />
 
-          {/* Dashboard con sidebar */}
+          {/* Panel principal con sidebar */}
           <Route
             path="/dashboard/*"
             element={
               <div className="flex h-screen flex-col bg-gray-50">
                 <Header />
-
                 <div className="flex flex-1 overflow-hidden">
                   <Sidebar />
                   <main className="flex-1 overflow-auto p-4">
                     <Routes>
-                      {/* redirección por default */}
                       <Route path="/" element={<Navigate to="map" replace />} />
-
-                      {/* vistas */}
-                      <Route
-                        path="map"
-                        element={<MapView openModal={openModal} />}
-                      />
+                      <Route path="map" element={<PlatformMapView openModal={openModal} />} />
                       <Route path="stats" element={<DataVisualization />} />
                       <Route path="admin" element={<AdminPanel />} />
                       <Route path="rewards" element={<Rewards />} />
@@ -76,7 +71,7 @@ export function App() {
                   </main>
                 </div>
 
-                {/* modal global para peticiones/proyectos */}
+                {/* Modal flotante global */}
                 {isModalOpen && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                     <div className="max-h-[90vh] w-full max-w-md overflow-auto rounded-lg bg-white shadow-xl">
@@ -89,11 +84,12 @@ export function App() {
                         </button>
 
                         {modalContent === "request" && (
-                          <RequestForm onClose={closeModal} />
+                          <RequestForm
+                            onClose={closeModal}
+                            initialCoords={selectedCoords || undefined}
+                          />
                         )}
-                        {modalContent === "project" && (
-                          <ProjectForm onClose={closeModal} />
-                        )}
+                        {modalContent === "project" && <ProjectForm onClose={closeModal} />}
                       </div>
                     </div>
                   </div>
@@ -106,4 +102,5 @@ export function App() {
     </Router>
   );
 }
+
 export default App;
