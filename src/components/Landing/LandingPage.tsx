@@ -10,12 +10,14 @@ import FeaturedTopicsSection from "./sections/FeaturedTopicsSection";
 import UrbanStatsSection from "./sections/UrbanStatsSection";
 import ServiciosSection from "./sections/ServiciosSection";
 import TeamSection from "./sections/TeamSection";
+import BlogSection from "./sections/BlogSection";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
   { label: "Mapa", href: "#mapa" },
   { label: "Estadísticas", href: "#estadisticas" },
   { label: "Servicios", href: "#servicios" },
+  { label: "Blog", href: "#blog" },
   { label: "Sobre Nosotros", href: "#sobre-nosotros" },
   { label: "Contacto", href: "#contacto" },
 ];
@@ -188,9 +190,9 @@ const LandingPage: React.FC = () => {
                 }`}
               >
                 <img
-                  src="./image.png"
+                  src="./logo.png"
                   alt="Ciudata logo"
-                  className="mr-2 size-6 mb-2"
+                  className=" size-10 mt-2"
                 />
                 Ciudata
               </span>
@@ -261,6 +263,7 @@ const LandingPage: React.FC = () => {
           <FeaturedTopicsSection />
           <UrbanStatsSection />
           <ServiciosSection />
+          <BlogSection />
           <TeamSection />
         </main>
       </div>
