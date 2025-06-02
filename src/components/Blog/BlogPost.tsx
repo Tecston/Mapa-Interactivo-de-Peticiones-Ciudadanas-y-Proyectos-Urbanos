@@ -20,7 +20,7 @@ const BlogPost: React.FC = () => {
             </p>
             <Link
               to="/blog"
-              className="inline-flex items-center text-blue-600 hover:text-blue-700"
+              className="inline-flex items-center text-brand-blue hover:text-brand-blue-darker"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Volver al blog
@@ -37,7 +37,7 @@ const BlogPost: React.FC = () => {
         {/* Back button */}
         <Link
           to="/blog"
-          className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8"
+          className="inline-flex items-center text-brand-blue hover:text-brand-blue-darker mb-3"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Volver al blog
@@ -80,7 +80,7 @@ const BlogPost: React.FC = () => {
           </h1>
 
           <div className="flex items-center space-x-4">
-            <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
+            <span className="bg-brand-blue-darker text-white px-4 py-1 rounded-full text-sm font-medium">
               {post.category}
             </span>
           </div>

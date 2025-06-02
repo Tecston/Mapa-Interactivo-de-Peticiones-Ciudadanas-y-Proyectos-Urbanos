@@ -16,13 +16,13 @@ const HeroSection: React.FC = () => (
     <div className="flex flex-col md:flex-row gap-4 justify-center">
       <Link
         to="/dashboard"
-        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-10 rounded-lg shadow-lg transform transition hover:scale-105 duration-200 text-lg"
+        className="bg-brand-blue hover:bg-brand-blue-darker text-white font-semibold py-2 px-5 rounded-lg shadow-lg transform transition hover:scale-105 duration-200 lg:text-lg"
       >
         VER PROYECTOS
       </Link>
       <a
         href="#contacto"
-        className="border-2 border-white text-white font-semibold py-4 px-10 rounded-lg shadow-lg transition hover:bg-white hover:text-indigo-700 duration-200 text-lg"
+        className="border-2 border-white text-white font-semibold py-2 px-5 rounded-lg shadow-lg transition hover:bg-white hover:text-brand-blue-darker duration-200 lg:text-lg"
       >
         CONTACTAR
       </a>

@@ -20,7 +20,7 @@ const Footer: React.FC = () => (
         <div className="flex flex-col">
           <h3 className="text-xl font-bold text-white mb-4">Contacto</h3>
           <div className="space-y-2 text-neutral-400 text-sm">
-            <p>Email: info@ciudata.mx</p>
+            <p>Email: info@ciudata.solutions</p>
             <p>Teléfono: (662) 123-4567</p>
             <p>Dirección: Hermosillo, Sonora</p>
           </div>

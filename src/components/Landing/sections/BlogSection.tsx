@@ -42,7 +42,7 @@ const BlogSection: React.FC = () => {
           {latestPosts.map((post) => (
             <article
               key={post.id}
-              className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300"
+              className="bg-white rounded-xl border border-gray-5 shadow-sm overflow-hidden hover:shadow-md hover:scale-105 transition-all ease-in duration-100"
             >
               <Link to={`/blog/${post.id}`}>
                 <div className="relative h-48">
@@ -104,7 +104,7 @@ const BlogSection: React.FC = () => {
         <div className="text-center mt-12">
           <Link
             to="/blog"
-            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+            className="inline-flex items-center text-brand-blue hover:text-brand-blue-darker transition-all duration-100 font-medium"
           >
             Ver todos los artículos
             <ArrowRight className="w-4 h-4 ml-2" />

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css" layer(utilities);
 @import "leaflet-draw/dist/leaflet.draw.css" layer(utilities);
@@ -12,10 +13,6 @@
   color utility to any element that depends on these defaults.
 */
 @theme {
-  /* --font-display: "neue-machina", "sans-serif";
-  --font-machina-inktrap: "neue-machina-ultrabold", "sans-serif";
-  --font-pixel: "mondwest", "sans-serif"; */
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-contrast: var(--contrast);
@@ -32,14 +29,14 @@
 }
 
 :root {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
   /*--background: #ffffff;*/
   /*--foreground: #5A6651;*/
   --background: #0a0a0a;
   --foreground: #ffffff;
-
-  --contrast: black;
-  --foreground-darker: #41600f;
-  scrollbar-width: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,44 +48,41 @@
     scrollbar-width: none;
   }
 }
-/* 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: neue-machina, "sans-serif";
-} */
 
 @theme {
-  --color-blue-1: oklch(99.4% 0.0027 253.3);
-  --color-blue-2: oklch(98.1% 0.0077 253.3);
-  --color-blue-3: oklch(96.1% 0.018 253.3);
-  --color-blue-4: oklch(93.5% 0.0308 253.3);
-  --color-blue-5: oklch(90.3% 0.0435 253.3);
-  --color-blue-6: oklch(86.2% 0.0578 253.3);
-  --color-blue-7: oklch(80.6% 0.0717 253.3);
-  --color-blue-8: oklch(73% 0.0957 253.3);
-  --color-blue-9: oklch(42.5% 0.1325 253.3);
-  --color-blue-10: oklch(36.8% 0.1325 253.3);
-  --color-blue-11: oklch(51.7% 0.1325 253.3);
-  --color-blue-12: oklch(33% 0.0684 253.3);
+  --color-brand-blue: oklch(0.6525 0.141166 236.3808);
+  --color-brand-blue-darker: oklch(0.6029 0.1135 236.3808);
 
-  --color-blue-a1: color(display-p3 0.0235 0.349 1 / 0.012);
-  --color-blue-a2: color(display-p3 0.0235 0.349 0.7843 / 0.036);
-  --color-blue-a3: color(display-p3 0.0078 0.3725 0.898 / 0.075);
-  --color-blue-a4: color(display-p3 0.0078 0.3804 0.9098 / 0.126);
-  --color-blue-a5: color(display-p3 0.0078 0.3569 0.8784 / 0.189);
-  --color-blue-a6: color(display-p3 0.0039 0.3412 0.8314 / 0.255);
-  --color-blue-a7: color(display-p3 0.0039 0.3098 0.7647 / 0.346);
-  --color-blue-a8: color(display-p3 0.0039 0.298 0.7294 / 0.475);
-  --color-blue-a9: color(display-p3 0 0.2039 0.498 / 0.879);
-  --color-blue-a10: color(display-p3 0 0.1647 0.4431 / 0.914);
-  --color-blue-a11: color(display-p3 0 0.2392 0.5804 / 0.777);
-  --color-blue-a12: color(display-p3 0 0.0941 0.2353 / 0.871);
+  --color-blue-1: oklch(99.2% 0.0037 236);
+  --color-blue-2: oklch(98% 0.0084 236);
+  --color-blue-3: oklch(95.9% 0.0239 236);
+  --color-blue-4: oklch(93.3% 0.037 236);
+  --color-blue-5: oklch(90% 0.0483 236);
+  --color-blue-6: oklch(86% 0.0593 236);
+  --color-blue-7: oklch(80.5% 0.0734 236);
+  --color-blue-8: oklch(72.7% 0.0987 236);
+  --color-blue-9: oklch(60.3% 0.114 236);
+  --color-blue-10: oklch(56% 0.114 236);
+  --color-blue-11: oklch(53.7% 0.114 236);
+  --color-blue-12: oklch(33.6% 0.049 236);
+
+  --color-blue-a1: color(display-p3 0.0235 0.5137 1 / 0.016);
+  --color-blue-a2: color(display-p3 0.0196 0.5569 0.9137 / 0.044);
+  --color-blue-a3: color(display-p3 0.0118 0.5255 0.9608 / 0.099);
+  --color-blue-a4: color(display-p3 0.0039 0.5255 0.9529 / 0.157);
+  --color-blue-a5: color(display-p3 0.0039 0.4941 0.8745 / 0.216);
+  --color-blue-a6: color(display-p3 0.0039 0.4627 0.8 / 0.291);
+  --color-blue-a7: color(display-p3 0.0039 0.4275 0.749 / 0.389);
+  --color-blue-a8: color(display-p3 0 0.4118 0.7216 / 0.534);
+  --color-blue-a9: color(display-p3 0 0.3569 0.6118 / 0.718);
+  --color-blue-a10: color(display-p3 0 0.3333 0.5647 / 0.769);
+  --color-blue-a11: color(display-p3 0 0.3216 0.5451 / 0.797);
+  --color-blue-a12: color(display-p3 0 0.1059 0.1804 / 0.863);
 
   --color-blue-contrast: #fff;
-  --color-blue-surface: color(display-p3 0.9569 0.9725 0.9961 / 0.8);
-  --color-blue-indicator: oklch(42.5% 0.1325 253.3);
-  --color-blue-track: oklch(42.5% 0.1325 253.3);
+  --color-blue-surface: color(display-p3 0.9451 0.9725 0.9922 / 0.8);
+  --color-blue-indicator: oklch(60.3% 0.114 236);
+  --color-blue-track: oklch(60.3% 0.114 236);
 
   --color-gray-1: oklch(99.1% 0.0015 277.7);
   --color-gray-2: oklch(98.2% 0.003 277.7);

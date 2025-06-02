@@ -67,7 +67,7 @@ const BlogList: React.FC = () => {
                 placeholder="Buscar artículos..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue focus:border-brand-blue appearance-none"
               />
             </div>
 
@@ -84,7 +84,7 @@ const BlogList: React.FC = () => {
                     onClick={() => setSelectedCategory("Todos")}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       selectedCategory === "Todos"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-brand-blue text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
@@ -96,7 +96,7 @@ const BlogList: React.FC = () => {
                       onClick={() => setSelectedCategory(category)}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                         selectedCategory === category
-                          ? "bg-blue-600 text-white"
+                          ? "bg-brand-blue text-white"
                           : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                       }`}
                     >
@@ -114,7 +114,7 @@ const BlogList: React.FC = () => {
                     onClick={() => setSortBy("newest")}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       sortBy === "newest"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-brand-blue text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
@@ -124,7 +124,7 @@ const BlogList: React.FC = () => {
                     onClick={() => setSortBy("oldest")}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       sortBy === "oldest"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-brand-blue text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
@@ -150,7 +150,7 @@ const BlogList: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4">
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-brand-blue-darker text-white px-3 py-1 rounded-full text-sm font-medium">
                     {post.category}
                   </span>
                 </div>
@@ -210,7 +210,7 @@ const BlogList: React.FC = () => {
 
                 <Link
                   to={`/blog/${post.id}`}
-                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                  className="inline-flex items-center text-brand-blue hover:text-brand-blue-darker font-medium"
                 >
                   Leer más
                   <ArrowRight className="w-4 h-4 ml-2" />
