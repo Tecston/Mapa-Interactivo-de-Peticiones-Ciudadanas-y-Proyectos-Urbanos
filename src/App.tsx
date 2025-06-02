@@ -27,10 +27,18 @@ import "./index.css";
 
 export function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<"request" | "project" | null>(null);
-  const [selectedCoords, setSelectedCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [modalContent, setModalContent] = useState<
+    "request" | "project" | null
+  >(null);
+  const [selectedCoords, setSelectedCoords] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
-  const openModal = (content: "request" | "project", coords?: { lat: number; lng: number }) => {
+  const openModal = (
+    content: "request" | "project",
+    coords?: { lat: number; lng: number }
+  ) => {
     setModalContent(content);
     setIsModalOpen(true);
     if (coords) {
@@ -66,13 +74,16 @@ export function App() {
                   <main className="flex-1 overflow-auto p-4">
                     <Routes>
                       <Route path="/" element={<Navigate to="map" replace />} />
-                      <Route path="map" element={<PlatformMapView openModal={openModal} />} />
+                      <Route
+                        path="map"
+                        element={<PlatformMapView openModal={openModal} />}
+                      />
                       <Route path="stats" element={<DataVisualization />} />
-                      <Route path="admin" element={<AdminPanel />} />
+                      {/* <Route path="admin" element={<AdminPanel />} />
                       <Route path="rewards" element={<Rewards />} />
                       <Route path="resources" element={<Resources />} />
                       <Route path="about" element={<AboutUs />} />
-                      <Route path="viability" element={<ViabilityPage />} />
+                      <Route path="viability" element={<ViabilityPage />} /> */}
                     </Routes>
                   </main>
                 </div>
@@ -95,7 +106,9 @@ export function App() {
                             initialCoords={selectedCoords || undefined}
                           />
                         )}
-                        {modalContent === "project" && <ProjectForm onClose={closeModal} />}
+                        {modalContent === "project" && (
+                          <ProjectForm onClose={closeModal} />
+                        )}
                       </div>
                     </div>
                   </div>

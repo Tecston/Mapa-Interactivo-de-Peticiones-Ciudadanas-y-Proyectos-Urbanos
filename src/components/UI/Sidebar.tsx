@@ -12,14 +12,11 @@ import {
 } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 
-type ViewType =
-  | "map"
-  | "stats"
-  | "admin"
-  | "rewards"
-  | "resources"
-  | "about"
-  | "viability";
+type ViewType = "map" | "stats" | "admin";
+// | "rewards"
+// | "resources"
+// | "about"
+// | "viability";
 
 /* definición centralizada */
 const NAV_ITEMS: {
@@ -51,62 +48,62 @@ const NAV_ITEMS: {
     ),
     path: "/dashboard/stats",
   },
-  {
-    type: "admin",
-    label: "Administración",
-    icon: (active) => (
-      <ShieldIcon
-        size={20}
-        className={`mr-2 ${active ? "text-red-500" : "text-gray-8"}`}
-      />
-    ),
-    path: "/dashboard/admin",
-    adminOnly: true,
-  },
-  {
-    type: "viability",
-    label: "Viabilidad",
-    icon: (active) => (
-      <ClipboardListIcon
-        size={20}
-        className={`mr-2 ${active ? "text-orange-500" : "text-gray-8"}`}
-      />
-    ),
-    path: "/dashboard/viability",
-  },
-  {
-    type: "rewards",
-    label: "Recompensas",
-    icon: (active) => (
-      <AwardIcon
-        size={20}
-        className={`mr-2 ${active ? "text-yellow-500" : "text-gray-8"}`}
-      />
-    ),
-    path: "/dashboard/rewards",
-  },
-  {
-    type: "resources",
-    label: "Recursos",
-    icon: (active) => (
-      <BookOpenIcon
-        size={20}
-        className={`mr-2 ${active ? "text-cyan-500" : "text-gray-8"}`}
-      />
-    ),
-    path: "/dashboard/resources",
-  },
-  {
-    type: "about",
-    label: "Sobre Nosotros",
-    icon: (active) => (
-      <InfoIcon
-        size={20}
-        className={`mr-2 ${active ? "text-gray-12" : "text-gray-8"}`}
-      />
-    ),
-    path: "/dashboard/about",
-  },
+  // {
+  //   type: "admin",
+  //   label: "Administración",
+  //   icon: (active) => (
+  //     <ShieldIcon
+  //       size={20}
+  //       className={`mr-2 ${active ? "text-red-500" : "text-gray-8"}`}
+  //     />
+  //   ),
+  //   path: "/dashboard/admin",
+  //   adminOnly: true,
+  // },
+  //   {
+  //     type: "viability",
+  //     label: "Viabilidad",
+  //     icon: (active) => (
+  //       <ClipboardListIcon
+  //         size={20}
+  //         className={`mr-2 ${active ? "text-orange-500" : "text-gray-8"}`}
+  //       />
+  //     ),
+  //     path: "/dashboard/viability",
+  //   },
+  //   {
+  //     type: "rewards",
+  //     label: "Recompensas",
+  //     icon: (active) => (
+  //       <AwardIcon
+  //         size={20}
+  //         className={`mr-2 ${active ? "text-yellow-500" : "text-gray-8"}`}
+  //       />
+  //     ),
+  //     path: "/dashboard/rewards",
+  //   },
+  //   {
+  //     type: "resources",
+  //     label: "Recursos",
+  //     icon: (active) => (
+  //       <BookOpenIcon
+  //         size={20}
+  //         className={`mr-2 ${active ? "text-cyan-500" : "text-gray-8"}`}
+  //       />
+  //     ),
+  //     path: "/dashboard/resources",
+  //   },
+  //   {
+  //     type: "about",
+  //     label: "Sobre Nosotros",
+  //     icon: (active) => (
+  //       <InfoIcon
+  //         size={20}
+  //         className={`mr-2 ${active ? "text-gray-12" : "text-gray-8"}`}
+  //       />
+  //     ),
+  //     path: "/dashboard/about",
+  //   },
 ];
 
 const Sidebar: React.FC = () => {
