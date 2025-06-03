@@ -1,5 +1,4 @@
-import React from "react";
-import { MapPinIcon, AwardIcon, UserIcon } from "lucide-react";
+import { AwardIcon, UserIcon } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -11,11 +10,11 @@ const Header = () => {
     <header className="bg-white text-contrast shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div
-          className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center cursor-pointer hover:opacity-70 transition-opacity"
           onClick={() => navigate("/")}
         >
-          <img src="/image.png" alt="Logo" className="size-8" />
-          <h1 className="text-xl text-blue-12 font-bold">Ciudata</h1>
+          <img src="/logo-alt.png" alt="Logo" className="size-6 mr-0.5 mb-0.5" />
+          <p className="text-xl text-brand-blue font-logo">Ciudata</p>
         </div>
         <div className="flex items-center space-x-4">
           <div className="flex items-center bg-blue-3 border-1 border-blue-6 text-blue-9 rounded-md px-3 py-1">
