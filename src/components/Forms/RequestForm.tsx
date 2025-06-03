@@ -169,7 +169,6 @@ const RequestForm: React.FC<RequestFormProps> = ({
         accept="image/jpeg"
         className="w-full border p-2 rounded"
         onChange={handleImageChange}
-        required
       />
       {imagePreview && (
         <img
