@@ -1,28 +1,35 @@
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { useAppContext } from '../../context/AppContext';
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { useAppContext } from "../../context/AppContext";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXZhbmRlcCIsImEiOiJjbTJudjZwbHIwYW00MmtvaTRhdzYyMDgyIn0.8aLktwoo3snu8FRYYCcY2Q';
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiaXZhbmRlcCIsImEiOiJjbTJudjZwbHIwYW00MmtvaTRhdzYyMDgyIn0.8aLktwoo3snu8FRYYCcY2Q";
 
 interface RequestFormProps {
   onClose: () => void;
   initialCoords?: { lat: number; lng: number };
 }
 
-const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => {
+const RequestForm: React.FC<RequestFormProps> = ({
+  onClose,
+  initialCoords,
+}) => {
   const { fetchRequests } = useAppContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
-  const [authorName, setAuthorName] = useState('');
-  const [contactPhone, setContactPhone] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [location, setLocation] = useState<[number, number]>(
-    initialCoords ? [initialCoords.lat, initialCoords.lng] : [29.14511, -110.88346]
+    initialCoords
+      ? [initialCoords.lat, initialCoords.lng]
+      : [29.14511, -110.88346]
   );
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -33,7 +40,7 @@ const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => 
 
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: "mapbox://styles/mapbox/streets-v11",
       center: [location[1], location[0]],
       zoom: 15,
     });
@@ -49,9 +56,9 @@ const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => 
       setLocation([lngLat.lat, lngLat.lng]);
     };
 
-    marker.on('dragend', updateCoords);
+    marker.on("dragend", updateCoords);
 
-    map.on('click', (e) => {
+    map.on("click", (e) => {
       const { lat, lng } = e.lngLat;
       marker.setLngLat([lng, lat]);
       setLocation([lat, lng]);
@@ -62,41 +69,46 @@ const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => 
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.type === 'image/jpeg') {
+    if (file && file.type === "image/jpeg") {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
     } else {
-      alert('Por favor selecciona una imagen en formato JPG');
+      alert("Por favor selecciona una imagen en formato JPG");
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('category', category);
-    formData.append('authorName', authorName);
-    formData.append('contactPhone', contactPhone);
-    formData.append('location', JSON.stringify({ lat: location[0], lng: location[1] }));
-    if (imageFile) formData.append('image', imageFile);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("authorName", authorName);
+    formData.append("contactPhone", contactPhone);
+    formData.append(
+      "location",
+      JSON.stringify({ lat: location[0], lng: location[1] })
+    );
+    if (imageFile) formData.append("image", imageFile);
 
     console.log("Enviando a:", import.meta.env.VITE_BACKEND_URL);
 
     try {
       await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/reportes`,
-        formData         
-      );    
-
+        formData
+      );
 
       await fetchRequests();
-      alert('Reporte enviado con éxito');
+      alert("Reporte enviado con éxito");
       onClose();
     } catch (error) {
-      console.error('Error al enviar el reporte', error);
-      alert('Error al enviar el reporte');
+      console.error("Error al enviar el reporte", error);
+      alert("Error al enviar el reporte");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -160,11 +172,17 @@ const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => 
         required
       />
       {imagePreview && (
-        <img src={imagePreview} alt="Vista previa" className="w-full h-auto rounded border" />
+        <img
+          src={imagePreview}
+          alt="Vista previa"
+          className="w-full h-auto rounded border"
+        />
       )}
 
       <div>
-        <p className="text-sm text-gray-500 mb-1">Selecciona el punto del problema en el mapa.</p>
+        <p className="text-sm text-gray-500 mb-1">
+          Selecciona el punto del problema en el mapa.
+        </p>
         <div ref={mapContainerRef} className="w-full h-64 rounded border" />
         <p className="text-xs text-gray-600 mt-2">
           Lat: {location[0].toFixed(5)}, Lng: {location[1].toFixed(5)}
@@ -176,14 +194,42 @@ const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => 
           type="button"
           onClick={onClose}
           className="px-4 py-2 bg-gray-400 text-white rounded"
+          disabled={isSubmitting}
         >
           Cancelar
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-brand-blue text-white rounded"
+          className="px-4 py-2 bg-brand-blue text-white rounded flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isSubmitting}
         >
-          Enviar
+          {isSubmitting ? (
+            <>
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Enviando...
+            </>
+          ) : (
+            "Enviar"
+          )}
         </button>
       </div>
     </form>
