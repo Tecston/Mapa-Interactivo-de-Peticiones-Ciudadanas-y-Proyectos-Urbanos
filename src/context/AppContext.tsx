@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_BASE =
   import.meta.env.VITE_BACKEND_URL ||
-  "https://ciudata-backend-f9a11d7c90a1.herokuapp.com";
+  "http://localhost:3000/api";
 const API_URL = `${API_BASE}/reportes`;
 
 export interface Comment {
