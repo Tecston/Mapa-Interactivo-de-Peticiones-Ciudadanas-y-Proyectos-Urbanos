@@ -43,7 +43,7 @@ const TeamSection: React.FC = () => (
     id="sobre-nosotros"
     className="w-full flex flex-col items-center py-24 bg-blue-50"
   >
-    <h2 className="text-4xl font-bold text-gray-800 mb-2 text-center">
+    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2 text-center">
       Nuestro Equipo
     </h2>
     <p className="text-lg text-gray-600 mb-10 text-center max-w-2xl">

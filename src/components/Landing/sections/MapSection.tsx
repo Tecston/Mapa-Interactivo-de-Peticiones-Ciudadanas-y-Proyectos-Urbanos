@@ -6,7 +6,7 @@ const MapSection: React.FC = () => (
     id="mapa"
     className="w-full flex flex-col items-center py-24 bg-white bg-opacity-90"
   >
-    <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center drop-shadow-sm">
+    <h2 className=" text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 text-center drop-shadow-sm">
       Mapa de Proyectos Arquitectónicos
     </h2>
     <p className="text-lg text-gray-600 mb-8 text-center max-w-2xl">
