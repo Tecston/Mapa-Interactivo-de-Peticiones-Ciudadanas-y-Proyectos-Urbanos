@@ -62,7 +62,7 @@ const MapView: React.FC<MapViewProps> = ({ openModal }) => {
 
       const el = document.createElement('div');
       el.className = 'marker';
-      el.style.backgroundColor = '#2563eb';
+      el.style.backgroundColor = '#009BDA';
       el.style.width = '12px';
       el.style.height = '12px';
       el.style.borderRadius = '50%';
@@ -141,7 +141,7 @@ const MapView: React.FC<MapViewProps> = ({ openModal }) => {
       <div ref={mapContainerRef} className="w-full h-full z-0" />
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex z-50 pointer-events-none">
         <button
-          className="pointer-events-auto w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-blue-600 hover:bg-blue-700 text-white"
+          className="pointer-events-auto w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors bg-brand-blue hover:bg-brand-blue-darker cursor-pointer text-white"
           onClick={() => {
             const center = mapRef.current?.getCenter();
             if (center) {

@@ -181,7 +181,7 @@ const RequestForm: React.FC<RequestFormProps> = ({ onClose, initialCoords }) => 
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded"
+          className="px-4 py-2 bg-brand-blue text-white rounded"
         >
           Enviar
         </button>
