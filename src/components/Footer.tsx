@@ -3,7 +3,7 @@ import React from "react";
 const Footer: React.FC = () => (
   <footer
     id="contacto"
-    className="w-full text-neutral-200 border-t bg-slate-800 border-neutral-800"
+    className="w-full text-neutral-200 border-t bg-gray-800 border-neutral-800"
   >
     <div className="max-w-7xl mx-auto px-6 py-12">
       {/* Main footer content in three columns */}

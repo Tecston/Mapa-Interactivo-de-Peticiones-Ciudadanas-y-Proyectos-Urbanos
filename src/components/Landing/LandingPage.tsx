@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { AppProvider } from "../../context/AppContext";
-import { Menu, X } from "lucide-react";
+import React, {useEffect, useRef, useState} from "react";
+import {Link} from "react-router-dom";
+import {AppProvider} from "../../context/AppContext";
+import {Menu, X} from "lucide-react";
 import Footer from "../Footer";
 import HeroSection from "./sections/HeroSection";
 import MapSection from "./sections/MapSection";
@@ -13,13 +13,13 @@ import TeamSection from "./sections/TeamSection";
 import BlogSection from "./sections/BlogSection";
 
 const NAV_LINKS = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Mapa", href: "#mapa" },
-  { label: "Estadísticas", href: "#estadisticas" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Blog", href: "#blog" },
-  { label: "Sobre Nosotros", href: "#sobre-nosotros" },
-  { label: "Contacto", href: "#contacto" },
+  {label: "Inicio", href: "#inicio"},
+  {label: "Mapa", href: "#mapa"},
+  {label: "Estadísticas", href: "#estadisticas"},
+  {label: "Servicios", href: "#servicios"},
+  {label: "Blog", href: "#blog"},
+  {label: "Sobre Nosotros", href: "#sobre-nosotros"},
+  {label: "Contacto", href: "#contacto"},
 ];
 
 const LandingPage: React.FC = () => {
@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
         setActiveSection(mostVisibleSection.target.id);
       }
     }, observerOptions);
-    NAV_LINKS.forEach(({ href }) => {
+    NAV_LINKS.forEach(({href}) => {
       const section = document.querySelector(href);
       if (section) {
         observer.observe(section);
@@ -101,17 +101,19 @@ const LandingPage: React.FC = () => {
           backgroundAttachment: "fixed",
         }}
       >
-        <nav className="w-full bg-gray-900 sticky top-0 z-[999] xl:hidden">
+        <nav className="w-full bg-gray-800 sticky top-0 z-[999] xl:hidden">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <img
-                  src="/image.png"
+                  src="/logo.png"
                   alt="Ciudata logo"
-                  className="h-6 w-6 mr-2"
+                  className="size-6 mb-0.5 mr-1"
                 />
                 <span className="text-xl font-bold tracking-wide text-white">
-                  Ciudata
+                  <p className={`font-logo font-medium text-brand-blue`}>
+                    Ciudata
+                  </p>
                 </span>
               </div>
               <button
@@ -120,9 +122,9 @@ const LandingPage: React.FC = () => {
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
-                  <X className="h-6 w-6" />
+                  <X className="h-6 w-6"/>
                 ) : (
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-6 w-6"/>
                 )}
               </button>
             </div>
@@ -143,8 +145,8 @@ const LandingPage: React.FC = () => {
                       onClick={handleNavClick}
                       className={`block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                         isActive
-                          ? "text-white bg-gray-800"
-                          : "text-gray-300 hover:text-white hover:bg-gray-800"
+                          ? "text-white bg-gray-700"
+                          : "text-gray-300 hover:text-white hover:bg-gray-700"
                       }`}
                     >
                       {link.label}
@@ -154,7 +156,7 @@ const LandingPage: React.FC = () => {
                 <Link
                   to="/dashboard"
                   onClick={handleNavClick}
-                  className="block mt-4 px-4 py-2 text-center rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 text-sm font-medium"
+                  className="block mt-4 px-4 py-2 text-center rounded-lg bg-brand-blue hover:bg-brand-blue-darker text-white transition-all duration-300 text-sm font-medium"
                 >
                   VER PROYECTOS
                 </Link>
@@ -182,11 +184,13 @@ const LandingPage: React.FC = () => {
                 }`}
               >
                 <img
-                  src="/logo.png"
+                  src="/logo-alt.png"
                   alt="Ciudata logo"
-                  className=" size-6 mb-0.5 mr-2"
+                  className="size-7 mb-0.5 mr-1"
                 />
-                Ciudata
+                <p className={`font-logo font-medium text-brand-blue`}>
+                 Ciudata
+                </p>
               </span>
             </div>
             <ul className="space-y-6">
@@ -202,10 +206,10 @@ const LandingPage: React.FC = () => {
                             ? "text-white scale-110"
                             : "text-white/60 hover:text-white"
                           : isActive
-                          ? "text-gray-800 scale-110"
-                          : "text-gray-500 hover:text-gray-800"
+                            ? "text-gray-800 scale-110"
+                            : "text-gray-500 hover:text-gray-800"
                       }`}
-                      style={{ minWidth: 120 }}
+                      style={{minWidth: 120}}
                     >
                       <div
                         className={`absolute -left-6 top-1/2 -translate-y-1/2 h-0.5 transition-all duration-300 ${
@@ -246,17 +250,17 @@ const LandingPage: React.FC = () => {
         </nav>
 
         <main className="flex-1 pt-16 lg:pt-0">
-          <HeroSection />
-          <MapSection />
-          <SectorStatsSection />
-          <FeaturedTopicsSection />
-          <UrbanStatsSection />
-          <ServiciosSection />
-          <BlogSection />
-          <TeamSection />
+          <HeroSection/>
+          <MapSection/>
+          <SectorStatsSection/>
+          <FeaturedTopicsSection/>
+          <UrbanStatsSection/>
+          <ServiciosSection/>
+          <BlogSection/>
+          <TeamSection/>
         </main>
       </div>
-      <Footer />
+      <Footer/>
     </AppProvider>
   );
 };

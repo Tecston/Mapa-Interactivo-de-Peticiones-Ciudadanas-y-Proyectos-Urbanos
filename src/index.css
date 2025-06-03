@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css" layer(utilities);
 @import "leaflet-draw/dist/leaflet.draw.css" layer(utilities);
@@ -29,6 +30,7 @@
 }
 
 :root {
+  background-color: #1E2938;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -38,6 +40,8 @@
   --background: #0a0a0a;
   --foreground: #ffffff;
 }
+
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -50,6 +54,8 @@
 }
 
 @theme {
+  --font-logo: "Montserrat", sans-serif;
+
   --color-brand-blue: oklch(0.6525 0.141166 236.3808);
   --color-brand-blue-darker: oklch(0.6029 0.1135 236.3808);
 
@@ -114,4 +120,12 @@
   --color-gray-surface: color(display-p3 1 1 1 / 80%);
   --color-gray-indicator: oklch(64.6% 0.0165 277.7);
   --color-gray-track: oklch(64.6% 0.0165 277.7);
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900 ;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/montserrat/v20/JTURjIg1_i6t8kCHKm459Wl7.woff2") format("woff2");
 }
