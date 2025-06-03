@@ -92,7 +92,7 @@ const LandingPage: React.FC = () => {
   return (
     <AppProvider>
       <div
-        className="min-h-screen w-full relative flex flex-col"
+        className="min-h-dvh w-full relative flex flex-col"
         style={{
           backgroundImage:
             "linear-gradient(rgba(20,20,40,0.7),rgba(20,20,40,0.7)), url(https://cdn.pixabay.com/photo/2021/04/09/02/09/hermosillo-6163195_1280.jpg)",
@@ -105,20 +105,32 @@ const LandingPage: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <img src="/image.png" alt="Ciudata logo" className="h-6 w-6 mr-2" />
-                <span className="text-xl font-bold tracking-wide text-white">Ciudata</span>
+                <img
+                  src="/image.png"
+                  alt="Ciudata logo"
+                  className="h-6 w-6 mr-2"
+                />
+                <span className="text-xl font-bold tracking-wide text-white">
+                  Ciudata
+                </span>
               </div>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="xl:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none"
                 aria-label="Toggle menu"
               >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                {isMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
               </button>
             </div>
             <div
               className={`xl:hidden transition-all duration-300 ease-in-out ${
-                isMenuOpen ? "max-h-[500px] opacity-100 visible" : "max-h-0 opacity-0 invisible"
+                isMenuOpen
+                  ? "max-h-[500px] opacity-100 visible"
+                  : "max-h-0 opacity-0 invisible"
               } overflow-hidden`}
             >
               <div className="py-4 space-y-1">
@@ -159,7 +171,9 @@ const LandingPage: React.FC = () => {
           <div className="relative mt-24">
             <div
               className={`absolute -left-8 top-1 pb-10 -translate-y-1/2 transition-all duration-300 ${
-                isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
+                isHovered
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-4"
               }`}
             >
               <span
@@ -168,9 +182,9 @@ const LandingPage: React.FC = () => {
                 }`}
               >
                 <img
-                  src="./logo.png"
+                  src="/logo.png"
                   alt="Ciudata logo"
-                  className=" size-10 mt-2"
+                  className=" size-6 mb-0.5 mr-2"
                 />
                 Ciudata
               </span>
@@ -202,7 +216,9 @@ const LandingPage: React.FC = () => {
                             : "w-0 group-hover:w-4 bg-gray-800/60"
                         }`}
                       />
-                      <span className="font-medium tracking-wide text-sm">{link.label}</span>
+                      <span className="font-medium tracking-wide text-sm">
+                        {link.label}
+                      </span>
                     </a>
                   </li>
                 );
@@ -210,7 +226,9 @@ const LandingPage: React.FC = () => {
             </ul>
             <div
               className={`mt-8 transition-all duration-300 ${
-                isHovered ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
+                isHovered
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-0 -translate-x-4"
               }`}
             >
               <Link
