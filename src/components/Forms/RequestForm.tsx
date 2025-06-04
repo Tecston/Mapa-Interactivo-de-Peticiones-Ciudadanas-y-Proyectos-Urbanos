@@ -18,6 +18,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
 }) => {
   const { fetchRequests } = useAppContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -34,6 +35,36 @@ const RequestForm: React.FC<RequestFormProps> = ({
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
+
+  const handleLocateUser = () => {
+    if (!navigator.geolocation) {
+      alert("Tu navegador no soporta geolocalización");
+      return;
+    }
+
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation([latitude, longitude]);
+        if (mapRef.current && markerRef.current) {
+          mapRef.current.flyTo({
+            center: [longitude, latitude],
+            zoom: 15,
+            essential: true,
+          });
+          markerRef.current.setLngLat([longitude, latitude]);
+        }
+        setIsLocating(false);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        alert("No se pudo obtener tu ubicación");
+        setIsLocating(false);
+      }
+    );
+  };
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -44,6 +75,11 @@ const RequestForm: React.FC<RequestFormProps> = ({
       center: [location[1], location[0]],
       zoom: 15,
     });
+
+    // Add navigation controls
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    mapRef.current = map;
 
     const marker = new mapboxgl.Marker({ draggable: true })
       .setLngLat([location[1], location[0]])
@@ -64,7 +100,10 @@ const RequestForm: React.FC<RequestFormProps> = ({
       setLocation([lat, lng]);
     });
 
-    return () => map.remove();
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
   }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -179,9 +218,66 @@ const RequestForm: React.FC<RequestFormProps> = ({
       )}
 
       <div>
-        <p className="text-sm text-gray-500 mb-1">
-          Selecciona el punto del problema en el mapa.
-        </p>
+        <div className="flex justify-between items-center mb-2">
+          <p className="text-sm text-gray-500">
+            Selecciona el punto del problema en el mapa.
+          </p>
+          <button
+            type="button"
+            onClick={handleLocateUser}
+            className="px-3 py-1 bg-brand-blue text-white text-sm rounded flex items-center gap-2 disabled:opacity-50"
+            disabled={isLocating}
+          >
+            {isLocating ? (
+              <>
+                <svg
+                  className="animate-spin h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Localizando...
+              </>
+            ) : (
+              <>
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                Encontrar mi ubicación
+              </>
+            )}
+          </button>
+        </div>
         <div ref={mapContainerRef} className="w-full h-64 rounded border" />
         <p className="text-xs text-gray-600 mt-2">
           Lat: {location[0].toFixed(5)}, Lng: {location[1].toFixed(5)}
