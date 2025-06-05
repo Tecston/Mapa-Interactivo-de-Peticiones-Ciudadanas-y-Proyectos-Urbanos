@@ -10,7 +10,7 @@ import FeaturedTopicsSection from "./sections/FeaturedTopicsSection";
 import ServiciosSection from "./sections/ServiciosSection";
 import TeamSection from "./sections/TeamSection";
 import BlogSection from "./sections/BlogSection";
-import AboutCiudata from "./sections/AboutCiudata.tsx";
+// import AboutCiudata from "./sections/AboutCiudata.tsx";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
@@ -261,7 +261,7 @@ const LandingPage: React.FC = () => {
               </Link>
           </div>
           <HeroSection />
-          <AboutCiudata />
+          {/*<AboutCiudata />*/}
           <MapSection />
           <SectorStatsSection />
           <FeaturedTopicsSection />
