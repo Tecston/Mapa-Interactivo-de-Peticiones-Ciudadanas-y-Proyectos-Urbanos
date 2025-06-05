@@ -1,25 +1,25 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Link} from "react-router-dom";
-import {AppProvider} from "../../context/AppContext";
-import {Menu, X} from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { AppProvider } from "../../context/AppContext";
+import { Menu, X } from "lucide-react";
 import Footer from "../Footer";
 import HeroSection from "./sections/HeroSection";
 import MapSection from "./sections/MapSection";
 import SectorStatsSection from "./sections/SectorStatsSection";
 import FeaturedTopicsSection from "./sections/FeaturedTopicsSection";
-import UrbanStatsSection from "./sections/UrbanStatsSection";
 import ServiciosSection from "./sections/ServiciosSection";
 import TeamSection from "./sections/TeamSection";
 import BlogSection from "./sections/BlogSection";
+import AboutCiudata from "./sections/AboutCiudata.tsx";
 
 const NAV_LINKS = [
-  {label: "Inicio", href: "#inicio"},
-  {label: "Mapa", href: "#mapa"},
-  {label: "Estadísticas", href: "#estadisticas"},
-  {label: "Servicios", href: "#servicios"},
-  {label: "Blog", href: "#blog"},
-  {label: "Sobre Nosotros", href: "#sobre-nosotros"},
-  {label: "Contacto", href: "#contacto"},
+  { label: "Inicio", href: "#inicio" },
+  { label: "Mapa", href: "#mapa" },
+  { label: "Estadísticas", href: "#estadisticas" },
+  { label: "Servicios", href: "#servicios" },
+  { label: "Blog", href: "#blog" },
+  { label: "Sobre Nosotros", href: "#sobre-nosotros" },
+  { label: "Contacto", href: "#contacto" },
 ];
 
 const LandingPage: React.FC = () => {
@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
         setActiveSection(mostVisibleSection.target.id);
       }
     }, observerOptions);
-    NAV_LINKS.forEach(({href}) => {
+    NAV_LINKS.forEach(({ href }) => {
       const section = document.querySelector(href);
       if (section) {
         observer.observe(section);
@@ -101,7 +101,7 @@ const LandingPage: React.FC = () => {
           backgroundAttachment: "fixed",
         }}
       >
-        <nav className="w-full bg-gray-800 sticky top-0 z-[999] xl:hidden">
+        <nav className="w-full bg-gray-800 sticky top-0 z-[999] 2xl:hidden">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
@@ -118,18 +118,18 @@ const LandingPage: React.FC = () => {
               </div>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="xl:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none"
+                className="2xl:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none"
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
-                  <X className="h-6 w-6"/>
+                  <X className="h-6 w-6" />
                 ) : (
-                  <Menu className="h-6 w-6"/>
+                  <Menu className="h-6 w-6" />
                 )}
               </button>
             </div>
             <div
-              className={`xl:hidden transition-all duration-300 ease-in-out ${
+              className={`2xl:hidden transition-all duration-300 ease-in-out ${
                 isMenuOpen
                   ? "max-h-[500px] opacity-100 visible"
                   : "max-h-0 opacity-0 invisible"
@@ -158,7 +158,7 @@ const LandingPage: React.FC = () => {
                   onClick={handleNavClick}
                   className="block mt-4 px-4 py-2 text-center rounded-lg bg-brand-blue hover:bg-brand-blue-darker text-white transition-all duration-300 text-sm font-medium"
                 >
-                  VER PROYECTOS
+                  IR AL MAPA
                 </Link>
               </div>
             </div>
@@ -166,7 +166,7 @@ const LandingPage: React.FC = () => {
         </nav>
 
         <nav
-          className={`fixed left-0 top-0 h-full z-50 hidden xl:flex flex-col items-start justify-center pl-12`}
+          className={`fixed left-0 top-0 h-full z-50 hidden 2xl:flex flex-col items-start justify-center pl-12`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -189,7 +189,7 @@ const LandingPage: React.FC = () => {
                   className="size-7 mb-0.5 mr-1"
                 />
                 <p className={`font-logo font-medium text-brand-blue`}>
-                 Ciudata
+                  Ciudata
                 </p>
               </span>
             </div>
@@ -206,10 +206,10 @@ const LandingPage: React.FC = () => {
                             ? "text-white scale-110"
                             : "text-white/60 hover:text-white"
                           : isActive
-                            ? "text-gray-800 scale-110"
-                            : "text-gray-500 hover:text-gray-800"
+                          ? "text-gray-800 scale-110"
+                          : "text-gray-500 hover:text-gray-800"
                       }`}
-                      style={{minWidth: 120}}
+                      style={{ minWidth: 120 }}
                     >
                       <div
                         className={`absolute -left-6 top-1/2 -translate-y-1/2 h-0.5 transition-all duration-300 ${
@@ -243,24 +243,35 @@ const LandingPage: React.FC = () => {
                     : "bg-gray-900/10 hover:bg-gray-900/20 text-gray-800"
                 }`}
               >
-                Ver proyectos
+                Ir al mapa
               </Link>
             </div>
           </div>
         </nav>
 
         <main className="flex-1 pt-16 lg:pt-0">
-          <HeroSection/>
-          <MapSection/>
-          <SectorStatsSection/>
-          <FeaturedTopicsSection/>
-          <UrbanStatsSection/>
-          <ServiciosSection/>
-          <BlogSection/>
-          <TeamSection/>
+          <div className="fixed bottom-3 right-4 z-50 w-fit rounded-full bg-brand-blue" onClick={() => setIsHovered(false)}>
+
+              <Link
+                to="/dashboard"
+                className={`font-medium py-2 px-4 rounded-full text-white transition-all duration-300 hover:text-white hover:bg-brand-blue-darker hidden xl:inline-block`}
+
+              >
+                Ir al mapa
+              </Link>
+          </div>
+          <HeroSection />
+          <AboutCiudata />
+          <MapSection />
+          <SectorStatsSection />
+          <FeaturedTopicsSection />
+          {/* <UrbanStatsSection/> */}
+          <ServiciosSection />
+          <BlogSection />
+          <TeamSection />
         </main>
       </div>
-      <Footer/>
+      <Footer />
     </AppProvider>
   );
 };
