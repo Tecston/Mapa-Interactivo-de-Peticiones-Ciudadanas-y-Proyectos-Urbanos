@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => (
         to="/dashboard"
         className="bg-brand-blue hover:bg-brand-blue-darker text-white font-semibold py-2 px-5 rounded-lg shadow-lg transform transition hover:scale-105 duration-200  lg:text-lg"
       >
-        VER PROYECTOS
+        IR AL MAPA
       </Link>
       <a
         href="#contacto"
