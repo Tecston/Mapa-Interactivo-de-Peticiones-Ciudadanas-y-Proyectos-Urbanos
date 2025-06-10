@@ -17,10 +17,10 @@ const Header = () => {
           <p className="text-xl text-brand-blue font-logo">Ciudata</p>
         </div>
         <div className="flex items-center space-x-4">
-          <div className="flex items-center bg-blue-3 border-1 border-blue-6 text-blue-9 rounded-md px-3 py-1">
-            <AwardIcon size={16} className="mr-1" />
-            <span>{currentUser.points} puntos</span>
-          </div>
+          {/*<div className="flex items-center bg-blue-3 border-1 border-blue-6 text-blue-9 rounded-md px-3 py-1">*/}
+          {/*  <AwardIcon size={16} className="mr-1" />*/}
+          {/*  <span>{currentUser.points} puntos</span>*/}
+          {/*</div>*/}
           <div className="flex items-center">
             <UserIcon size={20} className="mr-1 text-blue-12" />
             <span className="hidden sm:inline text-blue-12">
