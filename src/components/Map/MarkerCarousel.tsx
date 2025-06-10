@@ -69,11 +69,11 @@ const MarkerCarousel: React.FC<MarkerCarouselProps> = ({
             </p>
           )}
 
-          {currentItem.contactPhone && (
-            <p className="text-sm text-gray-600">
-              <strong>Tel:</strong> {currentItem.contactPhone}
-            </p>
-          )}
+          {/*{currentItem.contactPhone && (*/}
+          {/*  <p className="text-sm text-gray-600">*/}
+          {/*    <strong>Tel:</strong> {currentItem.contactPhone}*/}
+          {/*  </p>*/}
+          {/*)}*/}
 
           {currentItem.institution && (
             <p className="text-sm text-gray-600">

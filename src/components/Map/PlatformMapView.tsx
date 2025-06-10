@@ -223,7 +223,7 @@ const MapView: React.FC<MapViewProps> = ({ openModal }) => {
               }
               ${
                 firstItem.contactPhone
-                  ? `<p style="font-size:13px;"><strong>Tel:</strong> ${firstItem.contactPhone}</p>`
+                  ? `<!--<p style="font-size:13px;"><strong>Tel:</strong> ${firstItem.contactPhone}</p>-->`
                   : ""
               }
               ${
