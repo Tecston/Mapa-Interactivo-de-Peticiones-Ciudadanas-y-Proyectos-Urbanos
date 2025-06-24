@@ -91,8 +91,13 @@ const ServiciosSection: React.FC = () => {
       id="servicios"
       className="w-full flex flex-col items-center py-24 bg-white"
     >
+<<<<<<< HEAD
       <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2 text-center">
         Módulos Funcionales: Desarrollo Azul
+=======
+      <h2 className="text-3xl md:text-4xl font-bold lg:text-5xl text-gray-800 mb-2 text-center">
+        Módulos
+>>>>>>> 272a371 (feat(map): Integrar mejoras en el mapa y módulos de datos de la ciudad)
       </h2>
       <p className="text-lg text-gray-600 mb-10 text-center max-w-2xl">
         Soluciones integrales para la planificación urbana inteligente

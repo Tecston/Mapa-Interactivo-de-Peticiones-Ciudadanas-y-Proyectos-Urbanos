@@ -1,5 +1,6 @@
 import React from "react";
-import LandingMapView from "../../Map/LandingMapView";
+import LandingMapView from "@map/LandingMapView";
+
 
 const MapSection: React.FC = () => (
   <section
