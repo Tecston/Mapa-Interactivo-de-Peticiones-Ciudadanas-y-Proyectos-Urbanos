@@ -12,6 +12,7 @@ const AVAILABLE_INDICES = [
 ];
 
 import localData from "./data/temp202409.json";
+import lstData2023 from "./data/lst_202306.json";
 import soilWaterData2025 from "./data/soil_water_202505.json";
 import soilWaterData2022 from "./data/soil_water_202208.json";
 
@@ -37,13 +38,13 @@ interface LocalDataStructure {
 
 // Merge temperature categories into one FeatureCollection
 function getMergedTemperaturaCollection(
-  localData: LocalDataStructure
+  temperatureData: LocalDataStructure
 ): GeoJSONData {
   const tempKeys = ["hot", "mid", "cool"];
   let mergedFeatures: GeoJSONFeature[] = [];
   tempKeys.forEach((key) => {
-    if (localData[key] && localData[key].features) {
-      const featuresWithLabel = localData[key].features.map(
+    if (temperatureData[key] && temperatureData[key].features) {
+      const featuresWithLabel = temperatureData[key].features.map(
         (f: GeoJSONFeature) => ({
           ...f,
           properties: {
@@ -94,12 +95,15 @@ function getMergedSoilWaterCollection(
 export default function MapAnalytics() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState("temperatura");
+  const [selectedIndex, setSelectedIndex] = useState("soil_water");
   const [geoData, setGeoData] = useState<GeoJSONData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [layerEnabled, setLayerEnabled] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [temperatureYear, setTemperatureYear] = useState<"2025" | "2023">(
+    "2025"
+  );
   const [soilWaterYear, setSoilWaterYear] = useState<"2025" | "2022">("2025");
 
   // Initialize map
@@ -130,9 +134,11 @@ export default function MapAnalytics() {
       let merged: GeoJSONData;
 
       if (selectedIndex === "temperatura") {
-        merged = getMergedTemperaturaCollection(localData);
+        const temperatureData =
+          temperatureYear === "2025" ? localData : lstData2023;
+        merged = getMergedTemperaturaCollection(temperatureData);
         console.log(
-          "Loading temperature data:",
+          `Loading temperature data (${temperatureYear}):`,
           merged.features.length,
           "features"
         );
@@ -308,6 +314,11 @@ export default function MapAnalytics() {
     setLayerEnabled((prev) => !prev);
   };
 
+  // Toggle temperature year
+  const handleTemperatureYearToggle = () => {
+    setTemperatureYear((prev) => (prev === "2025" ? "2023" : "2025"));
+  };
+
   // Toggle soil water year
   const handleSoilWaterYearToggle = () => {
     setSoilWaterYear((prev) => (prev === "2025" ? "2022" : "2025"));
@@ -318,14 +329,22 @@ export default function MapAnalytics() {
       loadGeoData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map.current, layerEnabled, selectedIndex, soilWaterYear]);
+  }, [
+    map.current,
+    layerEnabled,
+    selectedIndex,
+    temperatureYear,
+    soilWaterYear,
+  ]);
 
   // Get data source info based on selected index
   const getDataSourceInfo = () => {
     if (selectedIndex === "temperatura") {
-      return `${(localData as any).data_source || "Landsat"} - ${
-        (localData as any).year || "2025"
-      }/${(localData as any).month || "05"}`;
+      const temperatureData =
+        temperatureYear === "2025" ? localData : lstData2023;
+      return `${
+        (temperatureData as any).data_source || "Landsat"
+      } - ${temperatureYear}/${temperatureYear === "2025" ? "05" : "06"}`;
     } else if (selectedIndex === "soil_water") {
       const soilWaterData =
         soilWaterYear === "2025" ? soilWaterData2025 : soilWaterData2022;
@@ -397,6 +416,18 @@ export default function MapAnalytics() {
               </div>
             )}
           </div>
+
+          {/* Temperature Year Toggle - only show when temperature is selected */}
+          {selectedIndex === "temperatura" && (
+            <button
+              type="button"
+              onClick={handleTemperatureYearToggle}
+              className="px-3 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-red-50 text-red-700 border-red-200 hover:bg-red-100"
+              disabled={loading}
+            >
+              {temperatureYear === "2025" ? "2025/05" : "2023/06"}
+            </button>
+          )}
 
           {/* Soil Water Year Toggle - only show when soil water is selected */}
           {selectedIndex === "soil_water" && (
