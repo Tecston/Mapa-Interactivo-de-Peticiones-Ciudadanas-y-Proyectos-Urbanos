@@ -4,9 +4,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useAppContext } from "../../context/AppContext";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiaXZhbmRlcCIsImEiOiJjbTJudjZwbHIwYW00MmtvaTRhdzYyMDgyIn0.8aLktwoo3snu8FRYYCcY2Q";
-
+mapboxgl.accessToken = import.meta.env.VITE_BACKEND_URL;
 interface RequestFormProps {
   onClose: () => void;
   initialCoords?: { lat: number; lng: number };

@@ -7,8 +7,7 @@ import { useAppContext } from "../../context/AppContext";
 import { FaMapPin } from "react-icons/fa";
 import MarkerCarousel from "./MarkerCarousel";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiaXZhbmRlcCIsImEiOiJjbTJudjZwbHIwYW00MmtvaTRhdzYyMDgyIn0.8aLktwoo3snu8FRYYCcY2Q";
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 interface MapViewProps {
   openModal: (type: "request", coords?: { lat: number; lng: number }) => void;
