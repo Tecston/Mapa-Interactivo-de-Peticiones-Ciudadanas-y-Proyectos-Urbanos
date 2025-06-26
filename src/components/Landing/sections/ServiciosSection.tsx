@@ -92,7 +92,7 @@ const ServiciosSection: React.FC = () => {
       className="w-full flex flex-col items-center py-24 bg-white"
     >
       <h2 className="text-3xl md:text-4xl font-bold lg:text-5xl text-gray-800 mb-2 text-center">
-        Módulos Funcionales: Desarrollo Azul
+        Módulos Funcionales
       </h2>
       <p className="text-lg text-gray-600 mb-10 mx-2 text-center max-w-2xl">
         Soluciones integrales para la planificación urbana inteligente
