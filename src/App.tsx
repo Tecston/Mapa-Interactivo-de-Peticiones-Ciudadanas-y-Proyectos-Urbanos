@@ -10,16 +10,17 @@ import Header from "./components/UI/Header";
 import Sidebar from "./components/UI/Sidebar";
 import PlatformMapView from "./components/Map/PlatformMapView";
 import DataVisualization from "./components/Dashboard/DataVisualization";
-import AdminPanel from "./components/Admin/AdminPanel";
-import Rewards from "./components/Rewards/Rewards";
-import Resources from "./components/Resources/Resources";
-import AboutUs from "./components/AboutUs/AboutUs";
+// import AdminPanel from "./components/Admin/AdminPanel";
+// import Rewards from "./components/Rewards/Rewards";
+// import Resources from "./components/Resources/Resources";
+// import AboutUs from "./components/AboutUs/AboutUs";
 import RequestForm from "./components/Forms/RequestForm";
 import ProjectForm from "./components/Forms/ProjectForm";
 import LandingPage from "./components/Landing/LandingPage";
-import ViabilityPage from "./pages/ViabilityPage";
+// import ViabilityPage from "./pages/ViabilityPage";
 import BlogList from "./components/Blog/BlogList";
 import BlogPost from "./components/Blog/BlogPost";
+import MapAnalytics from "./components/MapAnalytics/MapAnalytics";
 
 import { AppProvider } from "./context/AppContext";
 
@@ -79,7 +80,9 @@ export function App() {
                         element={<PlatformMapView openModal={openModal} />}
                       />
                       <Route path="stats" element={<DataVisualization />} />
-                      {/* <Route path="admin" element={<AdminPanel />} />
+                      {/* <Route path="admin" element={<AdminPanel />} /> */}
+                      <Route path="map_analytics" element={<MapAnalytics />} />
+                      {/* Rutas comentadas para futuras implementaciones
                       <Route path="rewards" element={<Rewards />} />
                       <Route path="resources" element={<Resources />} />
                       <Route path="about" element={<AboutUs />} />

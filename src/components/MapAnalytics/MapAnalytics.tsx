@@ -1,0 +1,477 @@
+import React, { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { Button } from "../UI/Button";
+import { ChevronsUpDown } from "lucide-react";
+
+mapboxgl.accessToken = (import.meta as any).env?.VITE_MAPBOX_ACCESS_TOKEN;
+
+const AVAILABLE_INDICES = [
+  { value: "temperatura", label: "Temperatura" },
+  { value: "soil_water", label: "Humedad del Suelo" },
+];
+
+import localData from "./data/temp202409.json";
+import soilWaterData2025 from "./data/soil_water_202505.json";
+import soilWaterData2022 from "./data/soil_water_202208.json";
+
+interface GeoJSONFeature {
+  type: "Feature";
+  geometry: {
+    type: "Point" | "Polygon" | "MultiPolygon";
+    coordinates: number[] | number[][] | number[][][];
+  };
+  properties: {
+    [key: string]: any;
+  };
+}
+
+interface GeoJSONData {
+  type: "FeatureCollection";
+  features: GeoJSONFeature[];
+}
+
+interface LocalDataStructure {
+  [key: string]: any;
+}
+
+// Merge temperature categories into one FeatureCollection
+function getMergedTemperaturaCollection(
+  localData: LocalDataStructure
+): GeoJSONData {
+  const tempKeys = ["hot", "mid", "cool"];
+  let mergedFeatures: GeoJSONFeature[] = [];
+  tempKeys.forEach((key) => {
+    if (localData[key] && localData[key].features) {
+      const featuresWithLabel = localData[key].features.map(
+        (f: GeoJSONFeature) => ({
+          ...f,
+          properties: {
+            ...f.properties,
+            temp_category: key,
+          },
+        })
+      );
+      mergedFeatures = mergedFeatures.concat(featuresWithLabel);
+    }
+  });
+  return {
+    type: "FeatureCollection",
+    features: mergedFeatures,
+  };
+}
+
+// Merge soil water categories into one FeatureCollection
+function getMergedSoilWaterCollection(
+  soilWaterData: LocalDataStructure
+): GeoJSONData {
+  const waterKeys = ["low", "mid", "high", "water"];
+  let mergedFeatures: GeoJSONFeature[] = [];
+
+  // Check if data is nested under "polygons" key
+  const dataSource = soilWaterData.polygons || soilWaterData;
+
+  waterKeys.forEach((key) => {
+    if (dataSource[key] && dataSource[key].features) {
+      const featuresWithLabel = dataSource[key].features.map(
+        (f: GeoJSONFeature) => ({
+          ...f,
+          properties: {
+            ...f.properties,
+            water_category: key,
+          },
+        })
+      );
+      mergedFeatures = mergedFeatures.concat(featuresWithLabel);
+    }
+  });
+  return {
+    type: "FeatureCollection",
+    features: mergedFeatures,
+  };
+}
+
+export default function MapAnalytics() {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState("temperatura");
+  const [geoData, setGeoData] = useState<GeoJSONData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [layerEnabled, setLayerEnabled] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [soilWaterYear, setSoilWaterYear] = useState<"2025" | "2022">("2025");
+
+  // Initialize map
+  useEffect(() => {
+    if (map.current) return;
+    if (mapContainer.current) {
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v12",
+        center: [-110.9559, 29.0729],
+        zoom: 10,
+      });
+      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+    }
+    return () => {
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+    };
+  }, []);
+
+  // Load data based on selected index
+  const loadGeoData = () => {
+    setLoading(true);
+    setError(null);
+    try {
+      let merged: GeoJSONData;
+
+      if (selectedIndex === "temperatura") {
+        merged = getMergedTemperaturaCollection(localData);
+        console.log(
+          "Loading temperature data:",
+          merged.features.length,
+          "features"
+        );
+      } else if (selectedIndex === "soil_water") {
+        const soilWaterData =
+          soilWaterYear === "2025" ? soilWaterData2025 : soilWaterData2022;
+        merged = getMergedSoilWaterCollection(soilWaterData);
+        console.log(
+          `Loading soil water data (${soilWaterYear}):`,
+          merged.features.length,
+          "features"
+        );
+        console.log(
+          "Soil water categories:",
+          merged.features
+            .map((f) => f.properties.water_category)
+            .filter((v, i, a) => a.indexOf(v) === i)
+        );
+      } else {
+        throw new Error(`Unknown index: ${selectedIndex}`);
+      }
+
+      setGeoData(merged);
+      if (map.current && merged.features && merged.features.length > 0) {
+        addDataToMap(merged);
+      }
+    } catch (err) {
+      console.error("Error loading data:", err);
+      setError(err instanceof Error ? err.message : "Error loading data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Add GeoJSON data to the map
+  const addDataToMap = (data: GeoJSONData) => {
+    if (!map.current) return;
+    const mapInstance = map.current;
+    if (mapInstance.getSource("geojson-data")) {
+      ["geojson-fill", "geojson-border", "geojson-points"].forEach((id) => {
+        if (mapInstance.getLayer(id)) mapInstance.removeLayer(id);
+      });
+      mapInstance.removeSource("geojson-data");
+    }
+    if (!layerEnabled) return; // Don't add layer if disabled
+    mapInstance.addSource("geojson-data", {
+      type: "geojson",
+      data: data as any,
+    });
+
+    // Determine color scheme based on selected index
+    const getColorExpression = () => {
+      if (selectedIndex === "temperatura") {
+        return [
+          "match",
+          ["get", "temp_category"],
+          "hot",
+          "#a50026", // Red
+          "mid",
+          "#ffffbf", // Yellow
+          "cool",
+          "#313695", // Blue
+          /* other */ "#cccccc",
+        ] as any;
+      } else if (selectedIndex === "soil_water") {
+        return [
+          "match",
+          ["get", "water_category"],
+          "low",
+          "#8b4513", // Brown
+          "mid",
+          "#90ee90", // Light green=
+          "high",
+          "#006400", // Dark green
+          "water",
+          "#0000ff", // Blue
+          /* other */ "#cccccc",
+        ] as any;
+      }
+      return "#cccccc";
+    };
+
+    mapInstance.addLayer({
+      id: "geojson-fill",
+      type: "fill",
+      source: "geojson-data",
+      paint: {
+        "fill-color": getColorExpression(),
+        "fill-opacity": 0.7,
+      },
+      filter: [
+        "in",
+        ["geometry-type"],
+        ["literal", ["Polygon", "MultiPolygon"]],
+      ],
+    });
+    mapInstance.addLayer({
+      id: "geojson-border",
+      type: "line",
+      source: "geojson-data",
+      paint: {
+        "line-color": "#000000",
+        "line-width": 1,
+        "line-opacity": 0.5,
+      },
+      filter: [
+        "in",
+        ["geometry-type"],
+        ["literal", ["Polygon", "MultiPolygon"]],
+      ],
+    });
+    mapInstance.addLayer({
+      id: "geojson-points",
+      type: "circle",
+      source: "geojson-data",
+      paint: {
+        "circle-radius": 8,
+        "circle-color": getColorExpression(),
+        "circle-opacity": 0.8,
+        "circle-stroke-width": 2,
+        "circle-stroke-color": "#000000",
+      },
+      filter: ["==", ["geometry-type"], "Point"],
+    });
+    // Fit map to data bounds
+    const bounds = new mapboxgl.LngLatBounds();
+    data.features.forEach((feature) => {
+      if (feature.geometry.type === "Point") {
+        const coords = feature.geometry.coordinates as number[];
+        if (Array.isArray(coords) && coords.length >= 2) {
+          bounds.extend([coords[0], coords[1]]);
+        }
+      } else if (feature.geometry.type === "Polygon") {
+        const coords = feature.geometry.coordinates[0] as number[][];
+        coords.forEach((coord) => {
+          if (Array.isArray(coord) && coord.length >= 2) {
+            bounds.extend([coord[0], coord[1]]);
+          }
+        });
+      } else if (feature.geometry.type === "MultiPolygon") {
+        const polygons = feature.geometry.coordinates as number[][][];
+        polygons.forEach((polygon) => {
+          polygon[0].forEach((coord) => {
+            if (Array.isArray(coord) && coord.length >= 2) {
+              bounds.extend([coord[0], coord[1]]);
+            }
+          });
+        });
+      }
+    });
+    if (!bounds.isEmpty()) {
+      mapInstance.fitBounds(bounds, {
+        padding: 50,
+        maxZoom: 15,
+      });
+    }
+  };
+
+  // Custom dropdown handler
+  const handleDropdownSelect = (value: string) => {
+    setSelectedIndex(value);
+    setDropdownOpen(false);
+    if (value === "none") {
+      setLayerEnabled(false);
+    } else {
+      setLayerEnabled(true);
+      loadGeoData();
+    }
+  };
+
+  // Toggle layer visibility
+  const handleLayerToggle = () => {
+    setLayerEnabled((prev) => !prev);
+  };
+
+  // Toggle soil water year
+  const handleSoilWaterYearToggle = () => {
+    setSoilWaterYear((prev) => (prev === "2025" ? "2022" : "2025"));
+  };
+
+  useEffect(() => {
+    if (map.current) {
+      loadGeoData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map.current, layerEnabled, selectedIndex, soilWaterYear]);
+
+  // Get data source info based on selected index
+  const getDataSourceInfo = () => {
+    if (selectedIndex === "temperatura") {
+      return `${(localData as any).data_source || "Landsat"} - ${
+        (localData as any).year || "2025"
+      }/${(localData as any).month || "05"}`;
+    } else if (selectedIndex === "soil_water") {
+      const soilWaterData =
+        soilWaterYear === "2025" ? soilWaterData2025 : soilWaterData2022;
+      return `${
+        (soilWaterData as any).data_source || "Soil Data"
+      } - ${soilWaterYear}/${soilWaterYear === "2025" ? "05" : "08"}`;
+    }
+    return "Unknown source";
+  };
+
+  // Get legend data based on selected index
+  const getLegendData = () => {
+    if (selectedIndex === "temperatura") {
+      return [
+        { label: "Caliente", color: "#a50026" },
+        { label: "Medio", color: "#ffffbf" },
+        { label: "Frío", color: "#313695" },
+      ];
+    } else if (selectedIndex === "soil_water") {
+      return [
+        { label: "Baja Humedad", color: "#8b4513" },
+        { label: "Humedad Media", color: "#90ee90" },
+        { label: "Alta Humedad", color: "#006400" },
+        { label: "Cuerpos de Agua", color: "#0000ff" },
+      ];
+    }
+    return [];
+  };
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="bg-white p-4 shadow-sm border-b">
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          Análisis de Datos Geoespaciales
+        </h1>
+        <div className="flex items-center gap-4 relative">
+          <label
+            htmlFor="index-selector"
+            className="text-sm font-medium text-gray-700"
+          >
+            Capas:
+          </label>
+          <div className="relative">
+            <button
+              type="button"
+              className="min-w-[160px] flex justify-between items-center bg-white text-gray-900 ring-1 ring-gray-300 px-2 py-1 rounded-sm shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-300"
+              onClick={() => setDropdownOpen((open) => !open)}
+              disabled={loading}
+            >
+              {AVAILABLE_INDICES.find((i) => i.value === selectedIndex)
+                ?.label || "Seleccionar"}
+              <ChevronsUpDown className="w-4 ml-2 h-4" />
+            </button>
+            {dropdownOpen && (
+              <div className="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg">
+                {AVAILABLE_INDICES.map((index) => (
+                  <button
+                    key={index.value}
+                    className={`w-full text-left px-4 py-2 hover:bg-blue-3 ${
+                      selectedIndex === index.value
+                        ? "bg-blue-3 text-gray-900"
+                        : "text-gray-900"
+                    }`}
+                    onClick={() => handleDropdownSelect(index.value)}
+                  >
+                    {index.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Soil Water Year Toggle - only show when soil water is selected */}
+          {selectedIndex === "soil_water" && (
+            <button
+              type="button"
+              onClick={handleSoilWaterYearToggle}
+              className="px-3 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
+              disabled={loading}
+            >
+              {soilWaterYear === "2025" ? "2025/05" : "2022/08"}
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={handleLayerToggle}
+            className={`px-3 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              layerEnabled
+                ? "bg-blue-9 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            disabled={loading}
+          >
+            {layerEnabled ? "Ocultar capa" : "Mostrar capa"}
+          </button>
+          {loading && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              Cargando datos...
+            </div>
+          )}
+        </div>
+        {error && (
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-sm text-red-700">Error: {error}</p>
+          </div>
+        )}
+        {geoData && (
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <p className="text-sm text-blue-700">
+              Datos cargados: {geoData.features.length} elementos
+            </p>
+            <p className="text-sm text-blue-600">
+              Fuente: {getDataSourceInfo()}
+            </p>
+          </div>
+        )}
+      </div>
+      <div className="flex-1 relative">
+        <div
+          ref={mapContainer}
+          className="w-full h-full"
+          style={{ minHeight: "500px" }}
+        />
+        {/* Legend */}
+        {geoData && layerEnabled && (
+          <div className="absolute bottom-4 right-4 bg-white p-3 rounded-md shadow-lg border">
+            <h3 className="text-sm font-medium text-gray-900 mb-2">
+              Leyenda -{" "}
+              {AVAILABLE_INDICES.find((i) => i.value === selectedIndex)?.label}
+            </h3>
+            <div className="space-y-1">
+              {getLegendData().map((item, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div
+                    className="w-4 h-4 rounded border border-gray-300"
+                    style={{ backgroundColor: item.color }}
+                  ></div>
+                  <span className="text-xs text-gray-700">{item.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

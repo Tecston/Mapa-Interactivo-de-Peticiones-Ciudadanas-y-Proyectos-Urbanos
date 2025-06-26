@@ -5,6 +5,7 @@ import {
   MapIcon,
   LayoutDashboardIcon,
   ShieldIcon,
+  Layers,
   ClipboardListIcon,
   AwardIcon,
   BookOpenIcon,
@@ -12,7 +13,7 @@ import {
 } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 
-type ViewType = "map" | "stats" | "admin";
+type ViewType = "map" | "stats" | "admin" | "map_analytics";
 // | "rewards"
 // | "resources"
 // | "about"
@@ -48,18 +49,29 @@ const NAV_ITEMS: {
     ),
     path: "/dashboard/stats",
   },
-  // {
-  //   type: "admin",
-  //   label: "Administración",
-  //   icon: (active) => (
-  //     <ShieldIcon
-  //       size={20}
-  //       className={`mr-2 ${active ? "text-red-500" : "text-gray-8"}`}
-  //     />
-  //   ),
-  //   path: "/dashboard/admin",
-  //   adminOnly: true,
-  // },
+  {
+    type: "admin",
+    label: "Administración",
+    icon: (active) => (
+      <ShieldIcon
+        size={20}
+        className={`mr-2 ${active ? "text-red-500" : "text-gray-8"}`}
+      />
+    ),
+    path: "/dashboard/admin",
+    adminOnly: true,
+  },
+  {
+    type: "map_analytics",
+    label: "Análisis de Zona",
+    icon: (active) => (
+      <Layers
+        size={20}
+        className={`mr-2 ${active ? "text-blue-500" : "text-gray-8"}`}
+      />
+    ),
+    path: "/dashboard/map_analytics",
+  },
   //   {
   //     type: "viability",
   //     label: "Viabilidad",
