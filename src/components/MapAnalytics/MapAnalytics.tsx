@@ -101,6 +101,7 @@ export default function MapAnalytics() {
   const [error, setError] = useState<string | null>(null);
   const [layerEnabled, setLayerEnabled] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mapLoading, setMapLoading] = useState(true);
   const [temperatureYear, setTemperatureYear] = useState<"2025" | "2023">(
     "2025"
   );
@@ -110,13 +111,25 @@ export default function MapAnalytics() {
   useEffect(() => {
     if (map.current) return;
     if (mapContainer.current) {
+      setMapLoading(true);
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v12",
         center: [-110.9559, 29.0729],
         zoom: 10,
       });
+
       map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+      // Listen for map load events
+      map.current.on("load", () => {
+        setMapLoading(false);
+      });
+
+      map.current.on("error", () => {
+        setMapLoading(false);
+        setError("Error loading map");
+      });
     }
     return () => {
       if (map.current) {
@@ -128,6 +141,8 @@ export default function MapAnalytics() {
 
   // Load data based on selected index
   const loadGeoData = () => {
+    if (mapLoading) return; // Don't load data if map is still loading
+
     setLoading(true);
     setError(null);
     try {
@@ -325,7 +340,7 @@ export default function MapAnalytics() {
   };
 
   useEffect(() => {
-    if (map.current) {
+    if (map.current && !mapLoading) {
       loadGeoData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -335,6 +350,7 @@ export default function MapAnalytics() {
     selectedIndex,
     temperatureYear,
     soilWaterYear,
+    mapLoading,
   ]);
 
   // Get data source info based on selected index
@@ -482,8 +498,22 @@ export default function MapAnalytics() {
           className="w-full h-full"
           style={{ minHeight: "500px" }}
         />
+
+        {/* Map Loading Overlay */}
+        {mapLoading && (
+          <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-700 font-medium">Cargando mapa...</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Esperando estilos del mapa
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Legend */}
-        {geoData && layerEnabled && (
+        {geoData && layerEnabled && !mapLoading && (
           <div className="absolute bottom-4 right-4 bg-white p-3 rounded-md shadow-lg border">
             <h3 className="text-sm font-medium text-gray-900 mb-2">
               Leyenda -{" "}
