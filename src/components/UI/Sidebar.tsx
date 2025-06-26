@@ -13,7 +13,8 @@ import {
 } from "lucide-react";
 import { useAppContext } from "../../context/AppContext";
 
-type ViewType = "map" | "stats" | "admin" | "map_analytics";
+type ViewType = "map" | "stats" | "map_analytics";
+// | "admin"
 // | "rewards"
 // | "resources"
 // | "about"
@@ -49,18 +50,18 @@ const NAV_ITEMS: {
     ),
     path: "/dashboard/stats",
   },
-  {
-    type: "admin",
-    label: "Administración",
-    icon: (active) => (
-      <ShieldIcon
-        size={20}
-        className={`mr-2 ${active ? "text-red-500" : "text-gray-8"}`}
-      />
-    ),
-    path: "/dashboard/admin",
-    adminOnly: true,
-  },
+  // {
+  //   type: "admin",
+  //   label: "Administración",
+  //   icon: (active) => (
+  //     <ShieldIcon
+  //       size={20}
+  //       className={`mr-2 ${active ? "text-red-500" : "text-gray-8"}`}
+  //     />
+  //   ),
+  //   path: "/dashboard/admin",
+  //   adminOnly: true,
+  // },
   {
     type: "map_analytics",
     label: "Análisis de Zona",
