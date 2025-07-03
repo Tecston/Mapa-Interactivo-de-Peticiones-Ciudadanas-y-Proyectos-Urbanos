@@ -396,17 +396,17 @@ export default function MapAnalytics() {
         <h1 className="text-2xl font-bold text-gray-900 mb-4">
           Análisis de Datos Geoespaciales
         </h1>
-        <div className="flex items-center gap-4 relative">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 relative">
           <label
             htmlFor="index-selector"
-            className="text-sm font-medium text-gray-700"
+            className="text-sm font-medium text-gray-700 sm:mb-0 mb-1"
           >
             Capas:
           </label>
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <button
               type="button"
-              className="min-w-[160px] flex justify-between items-center bg-white text-gray-900 ring-1 ring-gray-300 px-2 py-1 rounded-sm shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-300"
+              className="min-w-[160px] w-full sm:w-auto flex justify-between items-center bg-white text-gray-900 ring-1 ring-gray-300 px-2 py-1 rounded-sm shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-gray-300"
               onClick={() => setDropdownOpen((open) => !open)}
               disabled={loading}
             >
@@ -433,42 +433,83 @@ export default function MapAnalytics() {
             )}
           </div>
 
-          {/* Temperature Year Toggle - only show when temperature is selected */}
-          {selectedIndex === "temperatura" && (
+          {/* Date Selector and Layer Toggle - in a row on mobile, grid on desktop */}
+          <div className="flex flex-row gap-2 sm:grid sm:grid-cols-2 sm:gap-4 relative w-full sm:w-auto">
+            {selectedIndex === "temperatura" && (
+              <div className="flex flex-1">
+                <button
+                  type="button"
+                  onClick={() => setTemperatureYear("2025")}
+                  className={`flex-1 px-3 py-1.5 rounded-l-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                    ${
+                      temperatureYear === "2025"
+                        ? "bg-blue-9 text-white border-blue-11"
+                        : "bg-blue-2 text-blue-8 border-blue-4 hover:bg-blue-3"
+                    }
+                  `}
+                  disabled={loading}
+                >
+                  2025/05
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTemperatureYear("2023")}
+                  className={`flex-1 px-3 py-1.5 rounded-r-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                    ${
+                      temperatureYear === "2023"
+                        ? "bg-blue-9 text-white border-blue-11"
+                        : "bg-blue-2 text-blue-8 border-blue-4 hover:bg-blue-3"
+                    }
+                  `}
+                  disabled={loading}
+                >
+                  2023/06
+                </button>
+              </div>
+            )}
+            {selectedIndex === "soil_water" && (
+              <div className="flex flex-1">
+                <button
+                  type="button"
+                  onClick={() => setSoilWaterYear("2025")}
+                  className={`flex-1 px-3 py-1.5 rounded-l-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                    ${
+                      soilWaterYear === "2025"
+                        ? "bg-blue-9 text-white border-blue-11"
+                        : "bg-blue-2 text-blue-8 border-blue-4 hover:bg-blue-3"
+                    }
+                  `}
+                  disabled={loading}
+                >
+                  2025/05
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSoilWaterYear("2022")}
+                  className={`flex-1 px-3 py-1.5 rounded-r-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                    ${
+                      soilWaterYear === "2022"
+                        ? "bg-blue-9 text-white border-blue-11"
+                        : "bg-blue-2 text-blue-8 border-blue-4 hover:bg-blue-3"
+                    }
+                  `}
+                  disabled={loading}
+                >
+                  2022/08
+                </button>
+              </div>
+            )}
             <button
               type="button"
-              onClick={handleTemperatureYearToggle}
-              className="px-3 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-red-50 text-red-700 border-red-200 hover:bg-red-100"
+              onClick={handleLayerToggle}
+              className={`flex-1 px-2 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                layerEnabled ? "bg-blue-9 text-white" : "bg-blue-2 text-blue-8"
+              }`}
               disabled={loading}
             >
-              {temperatureYear === "2025" ? "2025/05" : "2023/06"}
+              {layerEnabled ? "Ocultar capa" : "Mostrar capa"}
             </button>
-          )}
-
-          {/* Soil Water Year Toggle - only show when soil water is selected */}
-          {selectedIndex === "soil_water" && (
-            <button
-              type="button"
-              onClick={handleSoilWaterYearToggle}
-              className="px-3 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
-              disabled={loading}
-            >
-              {soilWaterYear === "2025" ? "2025/05" : "2022/08"}
-            </button>
-          )}
-
-          <button
-            type="button"
-            onClick={handleLayerToggle}
-            className={`px-3 py-1.5 rounded-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              layerEnabled
-                ? "bg-blue-9 text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-            disabled={loading}
-          >
-            {layerEnabled ? "Ocultar capa" : "Mostrar capa"}
-          </button>
+          </div>
           {loading && (
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
@@ -482,13 +523,11 @@ export default function MapAnalytics() {
           </div>
         )}
         {geoData && (
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
-            <p className="text-sm text-blue-700">
+          <div className="mt-4 p-3 bg-blue-2 border border-blue-4 rounded-md">
+            <p className="text-sm text-blue-9">
               Datos cargados: {geoData.features.length} elementos
             </p>
-            <p className="text-sm text-blue-600">
-              Fuente: {getDataSourceInfo()}
-            </p>
+            <p className="text-sm text-blue-8">Fuente: {getDataSourceInfo()}</p>
           </div>
         )}
       </div>
