@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Button } from "../UI/Button";
 import { ChevronsUpDown } from "lucide-react";
 
 mapboxgl.accessToken = (import.meta as any).env?.VITE_MAPBOX_ACCESS_TOKEN;
@@ -9,18 +8,23 @@ mapboxgl.accessToken = (import.meta as any).env?.VITE_MAPBOX_ACCESS_TOKEN;
 const AVAILABLE_INDICES = [
   { value: "temperatura", label: "Temperatura" },
   { value: "soil_water", label: "Humedad del Suelo" },
+  { value: "urbano", label: "Urbano" },
+  { value: "vegetacion", label: "Vegetación" },
 ];
 
 import localData from "./data/temp202409.json";
 import lstData2023 from "./data/lst_202306.json";
 import soilWaterData2025 from "./data/soil_water_202505.json";
 import soilWaterData2022 from "./data/soil_water_202208.json";
+import urbano2014 from "./data/urbano_2014.json";
+import crecimiento1424 from "./data/crecimiento_14_24.json";
+import vegetacion2025 from "./data/vegetacion_2024.json";
 
 interface GeoJSONFeature {
   type: "Feature";
   geometry: {
     type: "Point" | "Polygon" | "MultiPolygon";
-    coordinates: number[] | number[][] | number[][][];
+    coordinates: number[] | number[][] | number[][][] | number[][][][];
   };
   properties: {
     [key: string]: any;
@@ -106,6 +110,8 @@ export default function MapAnalytics() {
     "2025"
   );
   const [soilWaterYear, setSoilWaterYear] = useState<"2025" | "2022">("2025");
+  const [urbanoYear, setUrbanoYear] = useState<"2014">("2014");
+  const [showCrecimiento, setShowCrecimiento] = useState(false);
 
   // Initialize map
   useEffect(() => {
@@ -172,6 +178,66 @@ export default function MapAnalytics() {
             .map((f) => f.properties.water_category)
             .filter((v, i, a) => a.indexOf(v) === i)
         );
+      } else if (selectedIndex === "urbano") {
+        // Load urbano_2014 data
+        const urbanoData = urbano2014 as any;
+        console.log(
+          `Loading urbano data (${urbanoYear}):`,
+          urbanoData.features.length,
+          "features"
+        );
+
+        if (showCrecimiento) {
+          // Combine both urbano_2014 and crecimiento_14_24
+          const crecimientoData = crecimiento1424 as any;
+          console.log(
+            `Loading crecimiento data:`,
+            crecimientoData.features.length,
+            "features"
+          );
+
+          // Merge both datasets
+          const combinedFeatures = [
+            ...urbanoData.features.map((f: any) => ({
+              ...f,
+              properties: {
+                ...f.properties,
+                layer_type: "urbano_2014",
+              },
+            })),
+            ...crecimientoData.features.map((f: any) => ({
+              ...f,
+              properties: {
+                ...f.properties,
+                layer_type: "crecimiento_14_24",
+              },
+            })),
+          ];
+
+          merged = {
+            type: "FeatureCollection",
+            features: combinedFeatures,
+          };
+        } else {
+          // Only urbano_2014
+          merged = {
+            type: "FeatureCollection",
+            features: urbanoData.features.map((f: any) => ({
+              ...f,
+              properties: {
+                ...f.properties,
+                layer_type: "urbano_2014",
+              },
+            })),
+          };
+        }
+      } else if (selectedIndex === "vegetacion") {
+        merged = vegetacion2025 as any;
+        console.log(
+          `Loading vegetación data (2024):`,
+          merged.features.length,
+          "features"
+        );
       } else {
         throw new Error(`Unknown index: ${selectedIndex}`);
       }
@@ -232,6 +298,18 @@ export default function MapAnalytics() {
           "#0000ff", // Blue
           /* other */ "#cccccc",
         ] as any;
+      } else if (selectedIndex === "urbano") {
+        return [
+          "match",
+          ["get", "layer_type"],
+          "urbano_2014",
+          "#ff9900", // Orange for urban polygons
+          "crecimiento_14_24",
+          "#ff1493", // Deep pink for growth areas
+          /* other */ "#cccccc",
+        ] as any;
+      } else if (selectedIndex === "vegetacion") {
+        return "#228B22"; // Verde para vegetación
       }
       return "#cccccc";
     };
@@ -350,6 +428,8 @@ export default function MapAnalytics() {
     selectedIndex,
     temperatureYear,
     soilWaterYear,
+    urbanoYear,
+    showCrecimiento,
     mapLoading,
   ]);
 
@@ -367,6 +447,12 @@ export default function MapAnalytics() {
       return `${
         (soilWaterData as any).data_source || "Soil Data"
       } - ${soilWaterYear}/${soilWaterYear === "2025" ? "05" : "08"}`;
+    } else if (selectedIndex === "urbano") {
+      return showCrecimiento
+        ? "Urbanización - 2014 + Crecimiento 2014-2024"
+        : "Urbanización - 2014";
+    } else if (selectedIndex === "vegetacion") {
+      return "Cobertura Vegetal - 2024";
     }
     return "Unknown source";
   };
@@ -386,6 +472,14 @@ export default function MapAnalytics() {
         { label: "Alta Humedad", color: "#006400" },
         { label: "Cuerpos de Agua", color: "#0000ff" },
       ];
+    } else if (selectedIndex === "urbano") {
+      const legend = [{ label: "Urbano 2014", color: "#ff9900" }];
+      if (showCrecimiento) {
+        legend.push({ label: "Crecimiento 2014-2024", color: "#ff1493" });
+      }
+      return legend;
+    } else if (selectedIndex === "vegetacion") {
+      return [{ label: "Vegetación 2024", color: "#228B22" }];
     }
     return [];
   };
@@ -496,6 +590,38 @@ export default function MapAnalytics() {
                   disabled={loading}
                 >
                   2022/08
+                </button>
+              </div>
+            )}
+            {selectedIndex === "urbano" && (
+              <div className="flex flex-1">
+                <button
+                  type="button"
+                  onClick={() => setUrbanoYear("2014")}
+                  className={`flex-1 px-3 py-1.5 rounded-l-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                    ${
+                      urbanoYear === "2014"
+                        ? "bg-blue-9 text-white border-blue-11"
+                        : "bg-blue-2 text-blue-8 border-blue-4 hover:bg-blue-3"
+                    }
+                  `}
+                  disabled={loading}
+                >
+                  2014
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCrecimiento(!showCrecimiento)}
+                  className={`flex-1 px-3 py-1.5 rounded-r-md shadow-sm border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                    ${
+                      showCrecimiento
+                        ? "bg-blue-9 text-white border-blue-11"
+                        : "bg-blue-2 text-blue-8 border-blue-4 hover:bg-blue-3"
+                    }
+                  `}
+                  disabled={loading}
+                >
+                  Crecimiento
                 </button>
               </div>
             )}
